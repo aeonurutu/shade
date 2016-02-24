@@ -81,11 +81,11 @@ func (c *Context) Main(screen *display.Context, config Config) {
 	ballSprite.Bind(screen.Program)
 
 	var objects []entity.Entity
-	player1 := player.New(cam.Left+15, screen.Height/4, paddleSprite)
+	player1 := player.New(1, cam.Left+15, screen.Height/4, paddleSprite)
 	objects = append(objects, player1)
-	player2 := player.New(cam.Right-15, screen.Height/4, paddleSprite)
+	player2 := player.New(2, cam.Right-15, screen.Height/4, paddleSprite)
 	objects = append(objects, player2)
-	ball := ball.New(mgl32.Vec3{screen.Width / 4, screen.Height / 2, 0.0}, mgl32.Vec3{0, 1, 0}, player1, ballSprite)
+	ball := ball.New(mgl32.Vec3{screen.Width / 4, screen.Height / 2, 0.0}, mgl32.Vec3{0, 1, 0}, ballSprite)
 	objects = append(objects, ball)
 
 	font, err := fonts.SimpleASCII()
@@ -113,8 +113,8 @@ func (c *Context) Main(screen *display.Context, config Config) {
 				running = false
 				event.Window.SetShouldClose(true)
 			}
-			player1.HandleEvent(event, dt/1000.0)
-			player2.HandleEvent(event, dt/1000.0)
+			player1.Handle(event)
+			player2.Handle(event)
 		}
 
 		for _, e := range objects {
@@ -136,7 +136,6 @@ func (c *Context) Main(screen *display.Context, config Config) {
 			msg += fmt.Sprintf("Player1: %v\n", player1.Pos())
 			msg += fmt.Sprintf("Player2: %v\n", player2.Pos())
 			msg += fmt.Sprintf("Ball: %v\n", ball.Pos())
-			msg += fmt.Sprintf("Owner: %v\n", ball.Owner)
 			font.DrawText(mgl32.Vec3{cam.Left + 20, cam.Top - 40, 0}, &deveff, msg)
 		}
 		screen.Flip()

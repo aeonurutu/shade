@@ -33,17 +33,32 @@ type Player struct {
 	pos    mgl32.Vec3
 	Score  int
 	Sprite *sprite.Context
+	PlayerNum	int  // player 1 or player 2
 	paddleSize int
-	p1UpKey  bool
-	p1DownKey bool
+	upKey  bool
+	downKey bool
+	keyUp	glfw.Key
+	keyDown	glfw.Key
 }
 
-func New(x, y float32, s *sprite.Context) *Player {
+func New(playerNum int, x, y float32, s *sprite.Context) *Player {
+	// create initial paddle
 	p := Player{
 		pos:    mgl32.Vec3{x, y, 0.0},
 		Sprite: s,
 		paddleSize: 8,
+		PlayerNum: playerNum,
 	}
+
+	// assign keys to player
+	if p.PlayerNum == 1 { 
+		p.keyUp = glfw.KeyQ
+		p.keyDown = glfw.KeyA
+	} else {
+		p.keyUp = glfw.KeyP
+		p.keyDown = glfw.KeyL
+	}
+
 	return &p
 }
 
@@ -51,31 +66,32 @@ func (p Player) Pos() mgl32.Vec3 {
 	return p.pos
 }
 
-func (p *Player) HandleEvent(event events.Event, dt float32) {
+//func (p *Player) HandleEvent(event events.Event, dt float32) {
+func (p *Player) Handle(event events.Event) {
 	// TODO: move this to SDK to handle things like holding Left & Right at the same time correctly
 
-	if (event.Action == glfw.Press || event.Action == glfw.Repeat) && event.Key == glfw.KeyQ {
-		p.p1UpKey = true
+	if (event.Action == glfw.Press || event.Action == glfw.Repeat) && event.Key == p.keyUp {
+		p.upKey = true
 	}
-	if (event.Action == glfw.Press || event.Action == glfw.Repeat) && event.Key == glfw.KeyA {
-		p.p1DownKey = true
+	if (event.Action == glfw.Press || event.Action == glfw.Repeat) && event.Key == p.keyDown {
+		p.downKey = true
 	}
 
-	if event.Action == glfw.Release && event.Key == glfw.KeyQ {
-		p.p1UpKey = false
+	if event.Action == glfw.Release && event.Key == p.keyUp {
+		p.upKey = false
 	}
-	if event.Action == glfw.Release && event.Key == glfw.KeyA {
-		p.p1DownKey = false
+	if event.Action == glfw.Release && event.Key == p.keyDown {
+		p.downKey = false
 	}	
 }
 
 // Update(dt?, group?)
 func (p *Player) Update(dt float32, group *[]entity.Entity) {
 	posY := p.pos[1]
-	if p.p1UpKey && posY <= TopY {
+	if p.upKey && posY <= TopY {
 		p.pos[1] += dt
 	}
-	if p.p1DownKey && posY >= BottomY {
+	if p.downKey && posY >= BottomY {
 		p.pos[1] -= dt
 	}
 }

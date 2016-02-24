@@ -17,10 +17,7 @@ package entity
 
 import (
 	"math"
-
 	"github.com/go-gl/mathgl/mgl32"
-//	"github.com/hurricanerix/shade/shapes"
-
 	"testing"
 	"fmt"
 )
@@ -64,16 +61,15 @@ func TestGetDir(t *testing.T) {
 	data[t6] = append(data[t6], mgl32.Vec3{ 0.0,  0.0, 0.0}) // b
 	data[t6] = append(data[t6], mgl32.Vec3{ 0.7,  0.7, 1.0}) // expected
 
-
 	// a lower and right of b
 	for k := range data {
 		aPos := data[k][0]
 		bPos := data[k][1]
 		expectedDir := data[k][2]
 		dir := getDir(aPos, bPos)
-		if (!(aboutTheSame(expectedDir[0], dir[0]) ||
-				aboutTheSame(expectedDir[1], dir[1]) ||
-				aboutTheSame(expectedDir[2], dir[2]))) {
+		if (!(AboutTheSame(expectedDir[0], dir[0]) ||
+				AboutTheSame(expectedDir[1], dir[1]) ||
+				AboutTheSame(expectedDir[2], dir[2]))) {
 			fmt.Println("Case", k, ":",
 				"Expected getDir(a,b) results to be",
 				expectedDir[0], expectedDir[1], expectedDir[2],
@@ -88,7 +84,10 @@ func TestGetDir(t *testing.T) {
 	}
 }
 
-func aboutTheSame(a32, b32 float32) bool {
+//func TestRectTest(t *testing.T) {
+//}
+
+func AboutTheSame(a32, b32 float32) bool {
 	tolerance := float64(0.01)
 	a := float64(a32)
 	b := float64(b32)

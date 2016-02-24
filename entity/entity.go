@@ -88,20 +88,32 @@ func Collide(target Collider, group *[]Collider, cleanup bool) (hits []Collision
 	return hits
 }
 
+/**
+ * points for Rectangles are probably lower left.
+ * points for circles are probably center.
+ *
+ * @param ap point for shape a
+ * @param bp point for shape b
+ * @param ab shapeA
+ * @param bb shapeB
+ * @param ignoreZ if z should be ignored
+ * @return a tuple of boolean (collision if true), Vec3 (direction of collision?)
+ */
 func rectTest(ap, bp mgl32.Vec3, ab, bb shapes.Shape, ignoreZ bool) (bool, mgl32.Vec3) {
 	apt := mgl32.Vec3{
 		ap[0] + ab.Data[0],
 		ap[1] + ab.Data[2],
 	}
-	aw := float32(math.Abs(float64(ab.Data[0]))) + float32(math.Abs(float64(ab.Data[1])))
-	ah := float32(math.Abs(float64(ab.Data[2]))) + float32(math.Abs(float64(ab.Data[3])))
+	aw := float32(math.Abs(float64(ab.Data[0]) + float64(ab.Data[1])))
+	ah := float32(math.Abs(float64(ab.Data[2]) + float64(ab.Data[3])))
 
 	bpt := mgl32.Vec3{
 		bp[0] + bb.Data[0],
 		bp[1] + bb.Data[2],
 	}
-	bw := float32(math.Abs(float64(bb.Data[0]))) + float32(math.Abs(float64(bb.Data[1])))
-	bh := float32(math.Abs(float64(bb.Data[2]))) + float32(math.Abs(float64(bb.Data[3])))
+
+	bw := float32(math.Abs(float64(bb.Data[0]) + float64(bb.Data[1])))
+	bh := float32(math.Abs(float64(bb.Data[2]) + float64(bb.Data[3])))
 
 	if apt[0] < bpt[0]+bw &&
 		apt[0]+aw > bpt[0] &&

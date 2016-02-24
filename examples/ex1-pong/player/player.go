@@ -16,12 +16,14 @@
 
 package player
 
+import "fmt"
 import (
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
 	"github.com/hurricanerix/shade/entity"
 	"github.com/hurricanerix/shade/events"
 	"github.com/hurricanerix/shade/sprite"
+	"github.com/hurricanerix/shade/shapes"
 )
 
 const NumToWin = 5
@@ -33,21 +35,27 @@ type Player struct {
 	pos    mgl32.Vec3
 	Score  int
 	Sprite *sprite.Context
+	Shape    shapes.Shape
 	PlayerNum	int  // player 1 or player 2
 	paddleSize int
 	upKey  bool
 	downKey bool
 	keyUp	glfw.Key
 	keyDown	glfw.Key
+	velocity	int
 }
 
 func New(playerNum int, x, y float32, s *sprite.Context) *Player {
 	// create initial paddle
+	fmt.Println(s.Width)
+	fmt.Println(s.Height)
 	p := Player{
 		pos:    mgl32.Vec3{x, y, 0.0},
 		Sprite: s,
-		paddleSize: 8,
+		Shape: *shapes.NewRect(0, 10, 0, float32(s.Height) * 2),
 		PlayerNum: playerNum,
+		paddleSize: 8,
+		velocity: 7,
 	}
 
 	// assign keys to player
@@ -66,7 +74,15 @@ func (p Player) Pos() mgl32.Vec3 {
 	return p.pos
 }
 
-//func (p *Player) HandleEvent(event events.Event, dt float32) {
+// Bind TODO doc
+func (p *Player) Bind(program uint32) error {
+	return p.Sprite.Bind(program)
+}
+
+func (p Player) Bounds() shapes.Shape {
+	return p.Shape
+}
+
 func (p *Player) Handle(event events.Event) {
 	// TODO: move this to SDK to handle things like holding Left & Right at the same time correctly
 
@@ -89,10 +105,10 @@ func (p *Player) Handle(event events.Event) {
 func (p *Player) Update(dt float32, group *[]entity.Entity) {
 	posY := p.pos[1]
 	if p.upKey && posY <= TopY {
-		p.pos[1] += dt
+		p.pos[1] += float32(p.velocity)
 	}
 	if p.downKey && posY >= BottomY {
-		p.pos[1] -= dt
+		p.pos[1] -= float32(p.velocity)
 	}
 }
 

@@ -16,12 +16,15 @@
 
 package ball
 
+import "fmt"
 import "time"
 import "math/rand"
 import (
 	"github.com/go-gl/mathgl/mgl32"
 	"github.com/hurricanerix/shade/entity"
 	"github.com/hurricanerix/shade/sprite"
+	"github.com/hurricanerix/shade/shapes"
+	"github.com/hurricanerix/shade/examples/ex1-pong/player"
 )
 
 const TopY = 455
@@ -31,6 +34,7 @@ const BottomY = 75
 type Ball struct {
 	pos    mgl32.Vec3
 	Sprite *sprite.Context
+	Shape    shapes.Shape
 	velocity	int
 	moveX	int
 	moveY	int
@@ -41,14 +45,18 @@ func randXY() (int, int) {
     randomNum := rand.New(randSource)
 
     var x, y int
-    for x = randomNum.Intn(3); x == 0; {
-    	x = randomNum.Intn(3)
+    for x = randomNum.Intn(2); x == 0; {
+    	x = randomNum.Intn(2)
     }
+    fmt.Println(x)
+    if x % 2 != 0 { x = 1 } else { x = -1 }
+
+    for y = randomNum.Intn(2); y == 0; {
+    	y = randomNum.Intn(2)
+    }
+    fmt.Println(y)
+    if y % 2 != 0 { y = 1 } else { y = -1 }
     
-    for y = randomNum.Intn(3); y == 0; {
-    	y = randomNum.Intn(3)
-    }
-	
 	return x, y
 }
 
@@ -58,6 +66,7 @@ func New(pos, dir mgl32.Vec3, s *sprite.Context) *Ball {
 	b := Ball{
 		pos:    pos,
 		Sprite: s,
+		Shape: *shapes.NewCircle(mgl32.Vec2{float32(s.Width), float32(s.Height)}, float32(s.Width)/2),
 		velocity: 3,
 		moveX: randX,
 		moveY: randY,
@@ -69,6 +78,15 @@ func (b Ball) Pos() mgl32.Vec3 {
 	return b.pos
 }
 
+// Bind TODO doc
+func (b *Ball) Bind(program uint32) error {
+	return b.Sprite.Bind(program)
+}
+
+func (b Ball) Bounds() shapes.Shape {
+	return b.Shape
+}
+
 func (b *Ball) Update(dt float32, group *[]entity.Entity) {
 	// reverse y direction if ball contact top or bottom of screen
 	if b.pos[1] > TopY {
@@ -78,31 +96,45 @@ func (b *Ball) Update(dt float32, group *[]entity.Entity) {
 		b.moveY *= -1
 	}
 
-	/*
-	// get collision
+	// reverse x direction if ball contact paddles
+	var collided bool
 	var cgroup []entity.Collider
 	for i := range *group {
 		if c, ok := (*group)[i].(entity.Collider); ok {
 			cgroup = append(cgroup, c)
 		}
 	}
-
 	for _, c := range entity.Collide(b, &cgroup, false) {
-		p.Collision = &c
+		if c.Hit.(*player.Player) != nil {
+			collided = true
+		}
 	}
-	*/
-
-	// reverse x direction if ball contact paddles
-	//if collideLeft {
-	if b.pos[0] > 500 {
-		b.moveX *= -1
-	}
-	if b.pos[0] < 0 {
+	
+	//if b.pos[0] > 600 || b.pos[0] < 0 {
+	if collided {
+		fmt.Println("BOOM!!!")
 		b.moveX *= -1
 	}
 
 	b.pos[0] += float32(b.moveX * b.velocity)
-	b.pos[1] += float32(b.moveY * b.velocity)
+	b.pos[1] += float32(b.moveY * b.velocity)	
+
+	var resetPos bool
+	if b.pos[0] < -75 {
+		fmt.Println("Player 1 lose!")
+		resetPos = true
+	} else if b.pos[0] > 650 {
+		fmt.Println("Player 2 lose!")
+		resetPos = true
+	}
+
+	if resetPos {
+		b.pos[0] = 250
+		b.pos[1] = 100
+		randX, randY := randXY()
+		b.moveX = randX
+		b.moveY = randY
+	}
 }
 
 func (b Ball) Draw() {

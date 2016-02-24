@@ -81,11 +81,11 @@ func (c *Context) Main(screen *display.Context, config Config) {
 	ballSprite.Bind(screen.Program)
 
 	var objects []entity.Entity
-	player1 := player.New(cam.Left+15, screen.Height/4, paddleSprite)
+	player1 := player.New(1, cam.Left+15, screen.Height/4, paddleSprite)
 	objects = append(objects, player1)
-	player2 := player.New(cam.Right-15, screen.Height/4, paddleSprite)
+	player2 := player.New(2, cam.Right-15, screen.Height/4, paddleSprite)
 	objects = append(objects, player2)
-	ball := ball.New(mgl32.Vec3{screen.Width / 4, screen.Height / 2, 0.0}, mgl32.Vec3{0, 1, 0}, player1, ballSprite)
+	ball := ball.New(mgl32.Vec3{screen.Width / 2, screen.Height / 2, 0.0}, mgl32.Vec3{0, 1, 0}, ballSprite)
 	objects = append(objects, ball)
 
 	font, err := fonts.SimpleASCII()
@@ -93,6 +93,13 @@ func (c *Context) Main(screen *display.Context, config Config) {
 		panic(err)
 	}
 	font.Bind(screen.Program)
+
+	// font color
+	efxFont := sprite.Effects{
+		EnableLighting: false,
+		Scale:          mgl32.Vec3{2.0, 2.0, 1.0},
+		Tint:           mgl32.Vec4{1.0, 1.0, 1.0, 1.0},
+	}
 
 	for running := true; running; {
 
@@ -112,6 +119,8 @@ func (c *Context) Main(screen *display.Context, config Config) {
 				// Handle window close
 				running = false
 			}
+			player1.Handle(event)
+			player2.Handle(event)
 		}
 
 		for _, e := range objects {
@@ -124,18 +133,16 @@ func (c *Context) Main(screen *display.Context, config Config) {
 		}
 
 		if config.DevMode {
-			deveff := sprite.Effects{
-				EnableLighting: false,
-				Scale:          mgl32.Vec3{2.0, 2.0, 1.0},
-				Tint:           mgl32.Vec4{1.0, 1.0, 1.0, 1.0},
-			}
 			msg := "Dev Mode!\n"
 			msg += fmt.Sprintf("Player1: %v\n", player1.Pos())
 			msg += fmt.Sprintf("Player2: %v\n", player2.Pos())
 			msg += fmt.Sprintf("Ball: %v\n", ball.Pos())
-			msg += fmt.Sprintf("Owner: %v\n", ball.Owner)
-			font.DrawText(mgl32.Vec3{cam.Left + 20, cam.Top - 40, 0}, &deveff, msg)
+			font.DrawText(mgl32.Vec3{cam.Left + 20, cam.Top - 40, 0}, &efxFont, msg)
 		}
+		msg := "Score: 0"
+		font.DrawText(mgl32.Vec3{cam.Left, 0, 0}, &efxFont, msg)
+		w, _ := font.SizeText(&efxFont, msg)
+		font.DrawText(mgl32.Vec3{cam.Right - w, 0, 0}, &efxFont, msg)
 		screen.Flip()
 		events.Poll()
 	}

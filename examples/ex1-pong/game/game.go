@@ -113,6 +113,8 @@ func (c *Context) Main(screen *display.Context, config Config) {
 				running = false
 				event.Window.SetShouldClose(true)
 			}
+			player1.HandleEvent(event, dt/1000.0)
+			player2.HandleEvent(event, dt/1000.0)
 		}
 
 		for _, e := range objects {

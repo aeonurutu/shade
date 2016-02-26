@@ -27,17 +27,36 @@ import (
 	"github.com/hurricanerix/shade/examples/ex1-pong/player"
 )
 
-const TopY = 455
-const BottomY = 75
-
 // Ball state
 type Ball struct {
+	startPos	mgl32.Vec3
 	pos    mgl32.Vec3
 	Sprite *sprite.Context
-	Shape    shapes.Shape
+	Shape    *shapes.Shape
 	velocity	int
 	moveX	int
 	moveY	int
+	colliding bool
+	player1	*player.Player
+	player2	*player.Player
+}
+
+func New(pos, dir mgl32.Vec3, s *sprite.Context, p1 *player.Player, p2 *player.Player) *Ball {
+	randX, randY := randXY()
+	
+	b := Ball{
+		startPos: pos,
+		pos: pos,
+		Sprite: s,
+		Shape: shapes.NewCircle(mgl32.Vec2{float32(s.Width / 2), float32(s.Height / 2)}, float32(s.Width / 2)),
+		velocity: 3,
+		moveX: randX,
+		moveY: randY,
+		player1: p1,
+		player2: p2,
+	}
+	fmt.Println("Ball created.")
+	return &b
 }
 
 func randXY() (int, int) {
@@ -45,33 +64,17 @@ func randXY() (int, int) {
     randomNum := rand.New(randSource)
 
     var x, y int
-    for x = randomNum.Intn(2); x == 0; {
-    	x = randomNum.Intn(2)
+    for x = randomNum.Intn(3); x == 0; {
+    	x = randomNum.Intn(3)
     }
-    fmt.Println(x)
     if x % 2 != 0 { x = 1 } else { x = -1 }
 
-    for y = randomNum.Intn(2); y == 0; {
-    	y = randomNum.Intn(2)
+    for y = randomNum.Intn(3); y == 0; {
+    	y = randomNum.Intn(3)
     }
-    fmt.Println(y)
     if y % 2 != 0 { y = 1 } else { y = -1 }
     
 	return x, y
-}
-
-func New(pos, dir mgl32.Vec3, s *sprite.Context) *Ball {
-	randX, randY := randXY()
-	
-	b := Ball{
-		pos:    pos,
-		Sprite: s,
-		Shape: *shapes.NewCircle(mgl32.Vec2{float32(s.Width), float32(s.Height)}, float32(s.Width)/2),
-		velocity: 3,
-		moveX: randX,
-		moveY: randY,
-	}
-	return &b
 }
 
 func (b Ball) Pos() mgl32.Vec3 {
@@ -84,15 +87,15 @@ func (b *Ball) Bind(program uint32) error {
 }
 
 func (b Ball) Bounds() shapes.Shape {
-	return b.Shape
+	return *b.Shape
 }
 
 func (b *Ball) Update(dt float32, group *[]entity.Entity) {
 	// reverse y direction if ball contact top or bottom of screen
-	if b.pos[1] > TopY {
+	if b.pos[1] >= player.TopY - float32(b.Sprite.Height / 2) {
 		b.moveY *= -1
 	}
-	if b.pos[1] < BottomY {
+	if b.pos[1] <= player.BottomY {
 		b.moveY *= -1
 	}
 
@@ -110,10 +113,14 @@ func (b *Ball) Update(dt float32, group *[]entity.Entity) {
 		}
 	}
 	
-	//if b.pos[0] > 600 || b.pos[0] < 0 {
-	if collided {
-		fmt.Println("BOOM!!!")
+	// if collided, reverse direction once until collision is ended
+	if !b.colliding && collided {
+		//fmt.Println("BOOM!!!")
 		b.moveX *= -1
+		b.colliding = true
+	} else if !collided {
+		// end colliding once no collision is detected
+		b.colliding = false
 	}
 
 	b.pos[0] += float32(b.moveX * b.velocity)
@@ -121,16 +128,18 @@ func (b *Ball) Update(dt float32, group *[]entity.Entity) {
 
 	var resetPos bool
 	if b.pos[0] < -75 {
-		fmt.Println("Player 1 lose!")
+		//fmt.Println("Player 1 lose!")
+		b.player2.Score += 1
 		resetPos = true
 	} else if b.pos[0] > 650 {
-		fmt.Println("Player 2 lose!")
+		//fmt.Println("Player 2 lose!")
+		b.player1.Score += 1
 		resetPos = true
 	}
 
 	if resetPos {
-		b.pos[0] = 250
-		b.pos[1] = 100
+		b.pos[0] = b.startPos[0]
+		b.pos[1] = b.startPos[1]
 		randX, randY := randXY()
 		b.moveX = randX
 		b.moveY = randY

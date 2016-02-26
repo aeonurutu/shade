@@ -27,7 +27,7 @@ import (
 )
 
 const NumToWin = 5
-const TopY = 455
+const TopY = 450
 const BottomY = 75
 
 // Player state
@@ -37,7 +37,7 @@ type Player struct {
 	Sprite     *sprite.Context
 	Shape      shapes.Shape
 	PlayerNum  int // player 1 or player 2
-	paddleSize int
+	PaddleSize int
 	upKey      bool
 	downKey    bool
 	keyUp      glfw.Key
@@ -47,16 +47,16 @@ type Player struct {
 
 func New(playerNum int, x, y float32, s *sprite.Context) *Player {
 	// create initial paddle
-	fmt.Println(s.Width)
-	fmt.Println(s.Height)
 	p := Player{
 		pos:        mgl32.Vec3{x, y, 0.0},
 		Sprite:     s,
-		Shape:      *shapes.NewRect(0, 10, 0, float32(s.Height)*2),
 		PlayerNum:  playerNum,
-		paddleSize: 8,
-		velocity:   7,
+		PaddleSize: 8,
+		velocity:   6,
 	}
+
+	// set shape for collision
+	p.SetShape()
 
 	// assign keys to player
 	if p.PlayerNum == 1 {
@@ -67,7 +67,12 @@ func New(playerNum int, x, y float32, s *sprite.Context) *Player {
 		p.keyDown = glfw.KeyL
 	}
 
+	fmt.Println(fmt.Sprintf("Player %d created.", playerNum))
 	return &p
+}
+
+func (p *Player) SetShape() {
+	p.Shape = *shapes.NewRect(0, float32(p.Sprite.Width), 0, float32(p.Sprite.Height * (p.PaddleSize - 2)))
 }
 
 func (p Player) Pos() mgl32.Vec3 {
@@ -120,13 +125,13 @@ func (p Player) Draw() {
 	// draw top of paddle
 	p.Sprite.DrawFrame(mgl32.Vec2{0, 0}, mgl32.Vec3{posX, posY, 0}, nil)
 
-	// draw middle part(s) of paddle; paddle shrink by 1 on every win
-	for i := 0; i < NumToWin+1-p.Score; i++ {
-		// position of paddle middle parts are offset by player posY minus (paddleSize * i + 1, i.e. index of loop + 1)
-		midPosY := posY - float32(p.paddleSize*(i+1))
+	// draw middle part(s) of paddle
+	for i := 0; i < p.PaddleSize - 2; i++ {
+		// position of paddle middle parts are offset by player posY minus (PaddleSize * i + 1, i.e. index of loop + 1)
+		midPosY := posY - float32(p.PaddleSize * (i+1))
 		p.Sprite.DrawFrame(mgl32.Vec2{0, 1}, mgl32.Vec3{posX, midPosY, 0}, nil)
 	}
 
 	// draw bottom of paddle
-	p.Sprite.DrawFrame(mgl32.Vec2{0, 2}, mgl32.Vec3{posX, posY - float32(p.paddleSize*(NumToWin+2)), 0}, nil)
+	p.Sprite.DrawFrame(mgl32.Vec2{0, 2}, mgl32.Vec3{posX, posY - float32(p.PaddleSize*(NumToWin+2)), 0}, nil)
 }

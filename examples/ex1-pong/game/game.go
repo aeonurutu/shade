@@ -17,6 +17,7 @@ package game
 
 import (
 	"fmt"
+	"time"
 	"runtime"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -68,26 +69,7 @@ func (c *Context) Main(screen *display.Context, config Config) {
 		panic(err)
 	}
 
-	paddleSprite, err := loadSpriteAsset("assets/paddle.png", "", 1, 3)
-	if err != nil {
-		panic(err)
-	}
-	paddleSprite.Bind(screen.Program)
-
-	ballSprite, err := loadSpriteAsset("assets/ball.png", "", 1, 1)
-	if err != nil {
-		panic(err)
-	}
-	ballSprite.Bind(screen.Program)
-
-	var objects []entity.Entity
-	player1 := player.New(1, cam.Left+15, screen.Height/4, paddleSprite)
-	objects = append(objects, player1)
-	player2 := player.New(2, cam.Right-15, screen.Height/4, paddleSprite)
-	objects = append(objects, player2)
-	ball := ball.New(mgl32.Vec3{screen.Width / 2, screen.Height / 2, 0.0}, mgl32.Vec3{0, 1, 0}, ballSprite)
-	objects = append(objects, ball)
-
+	// font object for text display on screen
 	font, err := fonts.SimpleASCII()
 	if err != nil {
 		panic(err)
@@ -101,6 +83,32 @@ func (c *Context) Main(screen *display.Context, config Config) {
 		Tint:           mgl32.Vec4{1.0, 1.0, 1.0, 1.0},
 	}
 
+	// load paddle and ball sprites
+	paddleSprite, err := loadSpriteAsset("assets/paddle.png", "", 1, 3)
+	if err != nil {
+		panic(err)
+	}
+	paddleSprite.Bind(screen.Program)
+
+	ballSprite, err := loadSpriteAsset("assets/ball.png", "", 1, 1)
+	if err != nil {
+		panic(err)
+	}
+	ballSprite.Bind(screen.Program)
+
+	// setup players and ball objects
+	var objects []entity.Entity
+	player1 := player.New(1, cam.Left+15, screen.Height/4, paddleSprite)
+	objects = append(objects, player1)
+	player2 := player.New(2, cam.Right-15, screen.Height/4, paddleSprite)
+	objects = append(objects, player2)
+	ball := ball.New(mgl32.Vec3{screen.Width / 2, screen.Height / 2, 0.0}, mgl32.Vec3{0, 1, 0}, ballSprite, player1, player2)
+	objects = append(objects, ball)
+
+	// has winner flag
+	var hasWinner bool
+
+	// game loop
 	for running := true; running; {
 
 		screen.Fill(0, 0, 0)
@@ -132,6 +140,14 @@ func (c *Context) Main(screen *display.Context, config Config) {
 			}
 		}
 
+		// draw scores
+		msgScore1 :=  fmt.Sprintf("Score: %d", player1.Score)
+		font.DrawText(mgl32.Vec3{cam.Left, cam.Top - 15, 0}, &efxFont, msgScore1)
+
+		msgScore2 :=  fmt.Sprintf("Score: %d", player2.Score)
+		w, _ := font.SizeText(&efxFont, msgScore2)
+		font.DrawText(mgl32.Vec3{cam.Right - w, cam.Top - 15, 0}, &efxFont, msgScore2)
+
 		if config.DevMode {
 			msg := "Dev Mode!\n"
 			msg += fmt.Sprintf("Player1: %v\n", player1.Pos())
@@ -139,12 +155,28 @@ func (c *Context) Main(screen *display.Context, config Config) {
 			msg += fmt.Sprintf("Ball: %v\n", ball.Pos())
 			font.DrawText(mgl32.Vec3{cam.Left + 20, cam.Top - 40, 0}, &efxFont, msg)
 		}
-		msg := "Score: 0"
-		font.DrawText(mgl32.Vec3{cam.Left, 0, 0}, &efxFont, msg)
-		w, _ := font.SizeText(&efxFont, msg)
-		font.DrawText(mgl32.Vec3{cam.Right - w, 0, 0}, &efxFont, msg)
+
+		// print winner
+		if player1.Score >= player.NumToWin {
+			font.DrawText(mgl32.Vec3{cam.Left + 150, cam.Top - 50, 0}, &efxFont, "Player 1 is the Winner!!!!")
+			hasWinner = true
+		} else if player2.Score >= player.NumToWin {
+			font.DrawText(mgl32.Vec3{cam.Left + 150, cam.Top - 50, 0}, &efxFont, "Player 2 is the Winner!!!!")
+			hasWinner = true
+		}
+
+		// screen Flip and events polling
 		screen.Flip()
 		events.Poll()
+
+		if hasWinner {
+			// wait and reset score
+			duration := time.Duration(5)*time.Second
+			time.Sleep(duration)
+			player1.Score = 0
+			player2.Score = 0
+			hasWinner = false
+		}
 	}
 }
 

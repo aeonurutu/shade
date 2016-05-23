@@ -28,6 +28,8 @@ import (
 	"github.com/hurricanerix/shade/camera"
 	"github.com/hurricanerix/shade/display"
 	"github.com/hurricanerix/shade/events"
+	"github.com/hurricanerix/shade/shade"
+	"github.com/hurricanerix/shade/splash"
 	"github.com/hurricanerix/shade/sprite"
 )
 
@@ -36,14 +38,22 @@ const windowHeight = 480
 
 func init() {
 	// GLFW event handling must run on the main OS thread
+	// TODO(hurricanerix): We might be able to only do this in files that
+	//                     actually handle input.
 	runtime.LockOSThread()
 }
 
 func main() {
+	shade.Run()
+
+	// TODO(hurricanerix): Everything below this should be moved to a "handler"
+	//                     that is exectured with shade.Run()
 	screen, err := display.SetMode("01-basic", windowWidth, windowHeight)
 	if err != nil {
 		log.Fatalln("failed to set display mode:", err)
 	}
+
+	splash.Main(screen)
 
 	cam, err := camera.New()
 	if err != nil {

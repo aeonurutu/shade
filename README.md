@@ -29,7 +29,6 @@ To install:
 Dependencies
 
 ```
-$ go get -u github.com/jteeuwen/go-bindata/...
 $ go get github.com/go-gl/gl/v{3.2,3.3,4.1,4.4,4.5}-{core,compatibility}/gl
 $ go get github.com/go-gl/gl/v3.3-core/gl
 ```
@@ -43,6 +42,8 @@ package github.com/hurricanerix/shade/gen: cannot find package "github.com/hurri
 	/Users/hurricanerix/bin/usr/gocode/src/github.com/hurricanerix/shade/gen (from $GOPATH)
 $ go generate github.com/hurricanerix/shade/...
 $ go get github.com/hurricanerix/shade/...
+$ cd $GOPATH/src/github.com/hurricanerix/shade
+$ wget http://shade.hurricanerix.me/assets.tar
 ```
 
 To test your install:

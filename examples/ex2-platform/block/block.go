@@ -33,14 +33,16 @@ type Block struct {
 	pos    mgl32.Vec3
 	Sprite *sprite.Context
 	Shape  *shapes.Shape
+	Index  float32
 }
 
 // New TODO doc
-func New(x, y float32, s *sprite.Context) *Block {
+func New(x, y float32, i float32, s *sprite.Context) *Block {
 	b := Block{
 		pos:    mgl32.Vec3{x, y, 1.0},
 		Sprite: s,
 		Shape:  shapes.NewRect(0, float32(s.Width), 0, float32(s.Height)),
+		Index:  i,
 	}
 	return &b
 }
@@ -62,5 +64,5 @@ func (b *Block) Bind(program uint32) error {
 func (b Block) Draw() {
 	//e *sprite.Effects) {
 	//b.Sprite.Draw(b.Pos, e)
-	b.Sprite.Draw(b.pos, nil)
+	b.Sprite.DrawFrame(mgl32.Vec2{b.Index, 0}, b.pos, nil)
 }

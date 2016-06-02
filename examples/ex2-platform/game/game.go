@@ -74,6 +74,7 @@ func (c *Context) Main(screen *display.Context, config Config) {
 	cam.TopStop = 64 * 6.5 // TODO: should be 64 x 14
 	cam.RightStop = 64 * 54
 	cam.LeftStop = 1
+	cam.BottomStop = 1
 	cam.Bind(c.Screen.Program)
 
 	scene, err := loadMap("map.data")
@@ -184,12 +185,12 @@ func (c *Context) Main(screen *display.Context, config Config) {
 func loadMap(path string) (*Scene, error) {
 	scene := Scene{}
 
-	playerSprite, err := loadSpriteAsset("assets/gopher128x128.png", "assets/gopher128x128.normal.png", 3, 2)
+	playerSprite, err := loadSpriteAsset("assets/gopher.png", "assets/gopher.normal.png", 5, 4)
 	if err != nil {
 		return &scene, err
 	}
 	scene.Sprites = append(scene.Sprites, playerSprite)
-	blockSprite, err := loadSpriteAsset("assets/block64x64.png", "assets/block64x64.normal.png", 1, 1)
+	blockSprite, err := loadSpriteAsset("assets/blocks.png", "assets/blocks.normal.png", 8, 1)
 	if err != nil {
 		return &scene, err
 	}
@@ -217,7 +218,11 @@ func loadMap(path string) (*Scene, error) {
 		for _, c := range lines[i] {
 			switch c {
 			case '#':
-				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), blockSprite))
+				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), 0, blockSprite))
+			case '-':
+				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), 1, blockSprite))
+			case 'D':
+				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), 2, blockSprite))
 			case 'S':
 				scene.Player = player.New(x, y, playerSprite)
 				scene.Objects = append(scene.Objects, scene.Player)

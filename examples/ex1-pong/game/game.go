@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ package game
 
 import (
 	"fmt"
-	"time"
 	"runtime"
+	"time"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
@@ -141,10 +141,10 @@ func (c *Context) Main(screen *display.Context, config Config) {
 		}
 
 		// draw scores
-		msgScore1 :=  fmt.Sprintf("Score: %d", player1.Score)
+		msgScore1 := fmt.Sprintf("Score: %d", player1.Score)
 		font.DrawText(mgl32.Vec3{cam.Left, cam.Top - 15, 0}, &efxFont, msgScore1)
 
-		msgScore2 :=  fmt.Sprintf("Score: %d", player2.Score)
+		msgScore2 := fmt.Sprintf("Score: %d", player2.Score)
 		w, _ := font.SizeText(&efxFont, msgScore2)
 		font.DrawText(mgl32.Vec3{cam.Right - w, cam.Top - 15, 0}, &efxFont, msgScore2)
 
@@ -171,7 +171,7 @@ func (c *Context) Main(screen *display.Context, config Config) {
 
 		if hasWinner {
 			// wait and reset score
-			duration := time.Duration(5)*time.Second
+			duration := time.Duration(5) * time.Second
 			time.Sleep(duration)
 			player1.Score = 0
 			player2.Score = 0

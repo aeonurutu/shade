@@ -23,11 +23,11 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/camera"
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/sprite"
-	"github.com/hurricanerix/shade/time/clock"
+	"github.com/convexbit/shade/camera"
+	"github.com/convexbit/shade/display"
+	"github.com/convexbit/shade/events"
+	"github.com/convexbit/shade/sprite"
+	"github.com/convexbit/shade/time/clock"
 )
 
 const windowWidth = 640

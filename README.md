@@ -37,18 +37,18 @@ $ go get github.com/go-gl/gl/v3.3-core/gl
 NOTE: the first "go get" will produce an error because generated files are not generated yet.
 
 ```
-$ go get github.com/hurricanerix/shade/...
-package github.com/hurricanerix/shade/gen: cannot find package "github.com/hurricanerix/shade/gen" in any of:
-	/usr/local/go/src/github.com/hurricanerix/shade/gen (from $GOROOT)
-	/Users/hurricanerix/bin/usr/gocode/src/github.com/hurricanerix/shade/gen (from $GOPATH)
-$ go generate github.com/hurricanerix/shade/...
-$ go get github.com/hurricanerix/shade/...
+$ go get github.com/convexbit/shade/...
+package github.com/convexbit/shade/gen: cannot find package "github.com/convexbit/shade/gen" in any of:
+	/usr/local/go/src/github.com/convexbit/shade/gen (from $GOROOT)
+	/Users/hurricanerix/bin/usr/gocode/src/github.com/convexbit/shade/gen (from $GOPATH)
+$ go generate github.com/convexbit/shade/...
+$ go get github.com/convexbit/shade/...
 ```
 
 To test your install:
 
 ```
-cd $GOPATH/src/github.com/hurricanerix/examples/ex2-platform
+cd $GOPATH/src/github.com/convexbit/examples/ex2-platform
 go run main.go
 ```
 
@@ -76,7 +76,7 @@ Helpful Tools
 Troubleshooing
 --------------
 
-#### cannot find package "github.com/hurricanerix/shade/gen"
+#### cannot find package "github.com/convexbit/shade/gen"
 
 Some variables/assets are packaged into a generated code file, if you get this error run the bindata.sh script to generate that file.
 

@@ -34,7 +34,7 @@ CODE="// gen is a generated package, DO NOT EDIT!\n
 \n
 package gen\n
 \n
-var GitURL = \"https://github.com/hurricanerix/shade\"\n
+var GitURL = \"https://github.com/convexbit/shade\"\n
 var Version string = \"$VERSION\"\n
 var Hash string = \"$HASH\"\n
 "

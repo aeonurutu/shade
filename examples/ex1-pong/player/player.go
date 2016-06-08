@@ -20,10 +20,10 @@ import "fmt"
 import (
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/shapes"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/convexbit/shade/entity"
+	"github.com/convexbit/shade/events"
+	"github.com/convexbit/shade/shapes"
+	"github.com/convexbit/shade/sprite"
 )
 
 const NumToWin = 5

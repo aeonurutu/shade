@@ -21,7 +21,7 @@ import (
 	"runtime"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/convexbit/shade/sprite"
 )
 
 func init() {
@@ -47,7 +47,7 @@ func New(s *sprite.Context, m map[int32]mgl32.Vec2, u mgl32.Vec2) (*Context, err
 }
 
 func SimpleASCII() (*Context, error) {
-	path := fmt.Sprintf("%s/src/github.com/hurricanerix/shade/assets/font.png", os.Getenv("GOPATH"))
+	path := fmt.Sprintf("%s/src/github.com/convexbit/shade/assets/font.png", os.Getenv("GOPATH"))
 	i, err := sprite.Load(path)
 	if err != nil {
 		return nil, err

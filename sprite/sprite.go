@@ -26,7 +26,7 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/gen"
+	"github.com/hurricanerix/shade/archive"
 	"github.com/hurricanerix/shade/light"
 )
 
@@ -97,7 +97,7 @@ func LoadAsset(name string) (image.Image, error) {
 		return nil, nil
 	}
 
-	imgFile, err := gen.Asset(name)
+	imgFile, err := archive.Get(name)
 	if err != nil {
 		return nil, fmt.Errorf("could not load asset %s: %v", name, err)
 	}

@@ -39,15 +39,7 @@ var Version string = \"$VERSION\"\n
 var Hash string = \"$HASH\"\n
 "
 
-TMP=`go-bindata -version`
-if [ $? -ne 0 ]
-then
-  # go-bindata is required to embed assets into binary
-  echo "Downloading go-bindata"
-  go get -u github.com/jteeuwen/go-bindata/...
-fi
-
 # generate all the files we need
 mkdir -p $ROOT_PATH/gen
-go-bindata -pkg gen -ignore="/*.pyxel" -o $ROOT_PATH/gen/assets.go -prefix "../../" $ROOT_PATH/assets/
+tar cf assets.tar assets
 echo -e $CODE | gofmt > $ROOT_PATH/gen/build_info.go

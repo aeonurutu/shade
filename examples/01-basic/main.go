@@ -22,13 +22,13 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/go-gl/gl/v4.1-core/gl"
-	"github.com/go-gl/glfw/v3.1/glfw"
-	"github.com/go-gl/mathgl/mgl32"
 	"github.com/convexbit/shade/camera"
 	"github.com/convexbit/shade/display"
 	"github.com/convexbit/shade/events"
 	"github.com/convexbit/shade/sprite"
+	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/glfw/v3.1/glfw"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 const windowWidth = 640
@@ -36,6 +36,8 @@ const windowHeight = 480
 
 func init() {
 	// GLFW event handling must run on the main OS thread
+	// TODO(hurricanerix): We might be able to only do this in files that
+	//                     actually handle input.
 	runtime.LockOSThread()
 }
 

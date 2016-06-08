@@ -20,14 +20,14 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/go-gl/gl/v4.1-core/gl"
-	"github.com/go-gl/glfw/v3.1/glfw"
-	"github.com/go-gl/mathgl/mgl32"
 	"github.com/convexbit/shade/camera"
 	"github.com/convexbit/shade/display"
 	"github.com/convexbit/shade/events"
 	"github.com/convexbit/shade/sprite"
 	"github.com/convexbit/shade/time/clock"
+	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/glfw/v3.1/glfw"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 const windowWidth = 640

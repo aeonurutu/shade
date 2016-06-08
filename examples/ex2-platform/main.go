@@ -20,9 +20,9 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/examples/ex2-platform/game"
-	"github.com/hurricanerix/shade/splash"
+	"github.com/convexbit/shade/display"
+	"github.com/convexbit/shade/examples/ex2-platform/game"
+	"github.com/convexbit/shade/splash"
 )
 
 var (

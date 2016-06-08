@@ -26,8 +26,8 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/gen"
-	"github.com/hurricanerix/shade/light"
+	"github.com/convexbit/shade/gen"
+	"github.com/convexbit/shade/light"
 )
 
 func init() {

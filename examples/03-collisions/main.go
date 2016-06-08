@@ -22,8 +22,6 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/go-gl/gl/v4.1-core/gl"
-	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/convexbit/shade/camera"
 	"github.com/convexbit/shade/display"
 	"github.com/convexbit/shade/entity"
@@ -32,6 +30,8 @@ import (
 	"github.com/convexbit/shade/examples/03-collisions/block"
 	"github.com/convexbit/shade/sprite"
 	"github.com/convexbit/shade/time/clock"
+	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/glfw/v3.1/glfw"
 )
 
 const windowWidth = 640

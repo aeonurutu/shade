@@ -24,10 +24,10 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/convexbit/shade/archive"
+	"github.com/convexbit/shade/light"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/convexbit/shade/gen"
-	"github.com/convexbit/shade/light"
 )
 
 func init() {
@@ -97,7 +97,7 @@ func LoadAsset(name string) (image.Image, error) {
 		return nil, nil
 	}
 
-	imgFile, err := gen.Asset(name)
+	imgFile, err := archive.Get(name)
 	if err != nil {
 		return nil, fmt.Errorf("could not load asset %s: %v", name, err)
 	}

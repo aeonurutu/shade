@@ -22,8 +22,15 @@ import (
 	"github.com/go-gl/mathgl/mgl32"
 )
 
-// Context contains the camera's state
-type Context struct {
+type Camera interface {
+	// SetPos ...
+	// SetPos(loc mgl32.Vec2)
+	// ViewMatrix ...
+	ViewMatrix()
+}
+
+// Camera2D contains the camera's state
+type Camera2D struct {
 	// Pos of the camera
 	Pos mgl32.Vec3
 	// Width of the camera in pixels (projected onto the screen)
@@ -49,18 +56,19 @@ type Context struct {
 	// RightStop prevents the camera's Right position from exceeding it.
 	RightStop float32
 
-	// ProjMatrix for the current camera's position
-	ProjMatrix mgl32.Mat4
-	// ViewMatrix for the current camera's position
-	ViewMatrix mgl32.Mat4
+	// TODO(hurricanerix): move this to display
+	// projMatrix for the current camera's position
+	// projMatrix mgl32.Mat4
+	// viewMatrix for the current camera's position
+	viewMatrix mgl32.Mat4
 
 	// viewMatrixLoc in GLSL program
 	viewMatrixLoc int32
 }
 
 // New camera is returned.
-func New() (*Context, error) {
-	c := Context{
+func New() (*Camera2D, error) {
+	c := Camera2D{
 		Pos:    mgl32.Vec3{},
 		Width:  640,
 		Height: 480,
@@ -68,25 +76,30 @@ func New() (*Context, error) {
 	return &c, nil
 }
 
+func (ctx Camera2D) ViewMatrix() *mgl32.Mat4 {
+	return &ctx.viewMatrix
+}
+
 // Bind the camera to OpenGL
-func (c *Context) Bind(program uint32) {
-	var left, right, top, bottom, near, far float32
-	right = float32(c.Width)
-	top = float32(c.Height)
-	near = 0.1
-	far = 100.0
-	c.ProjMatrix = mgl32.Ortho(left, right, bottom, top, near, far)
-	projUniform := gl.GetUniformLocation(program, gl.Str("ProjMatrix\x00"))
-	gl.UniformMatrix4fv(projUniform, 1, false, &c.ProjMatrix[0])
+func (c *Camera2D) Bind(program uint32) {
+	// TODO(hurricanerix): move this to display?
+	// var left, right, top, bottom, near, far float32
+	// right = float32(c.Width)
+	// top = float32(c.Height)
+	// near = 0.1
+	// far = 100.0
+	// c.ProjMatrix = mgl32.Ortho(left, right, bottom, top, near, far)
+	// projUniform := gl.GetUniformLocation(program, gl.Str("ProjMatrix\x00"))
+	// gl.UniformMatrix4fv(projUniform, 1, false, &c.ProjMatrix[0])
 
 	c.viewMatrixLoc = gl.GetUniformLocation(program, gl.Str("ViewMatrix\x00"))
 	c.Move(mgl32.Vec3{})
-	gl.UniformMatrix4fv(c.viewMatrixLoc, 1, false, &c.ViewMatrix[0])
+	gl.UniformMatrix4fv(c.viewMatrixLoc, 1, false, &c.viewMatrix[0])
 }
 
 // Move the camera to pos, unless that position conflicts with stops, in which case
 // the camera will move as close to pos as possible.
-func (c *Context) Move(pos mgl32.Vec3) {
+func (c *Camera2D) Move(pos mgl32.Vec3) {
 	pos[0] -= c.Offset[0]
 	pos[1] -= c.Offset[1]
 
@@ -112,14 +125,14 @@ func (c *Context) Move(pos mgl32.Vec3) {
 	eye = mgl32.Vec3{c.Pos[0], c.Pos[1], 7.0}
 	center = mgl32.Vec3{c.Pos[0], c.Pos[1], -1.0}
 	up = mgl32.Vec3{0.0, 1.0, 0.0}
-	c.ViewMatrix = mgl32.LookAtV(eye, center, up)
+	c.viewMatrix = mgl32.LookAtV(eye, center, up)
 
-	gl.UniformMatrix4fv(c.viewMatrixLoc, 1, false, &c.ViewMatrix[0])
+	gl.UniformMatrix4fv(c.viewMatrixLoc, 1, false, &c.viewMatrix[0])
 }
 
 // Follow the pos uing a simple linear interpolation algorithm.  How fast the camera
 // snaps to the position can be adjusted with lerp.  Like Move, it also obeys stops.
-func (c *Context) Follow(pos mgl32.Vec3, lerp float32) {
+func (c *Camera2D) Follow(pos mgl32.Vec3, lerp float32) {
 	pos[0] -= c.Offset[0]
 	pos[1] -= c.Offset[1]
 
@@ -148,15 +161,15 @@ func (c *Context) Follow(pos mgl32.Vec3, lerp float32) {
 	eye = mgl32.Vec3{c.Pos[0], c.Pos[1], 7.0}
 	center = mgl32.Vec3{c.Pos[0], c.Pos[1], -1.0}
 	up = mgl32.Vec3{0.0, 1.0, 0.0}
-	c.ViewMatrix = mgl32.LookAtV(eye, center, up)
+	c.viewMatrix = mgl32.LookAtV(eye, center, up)
 
-	gl.UniformMatrix4fv(c.viewMatrixLoc, 1, false, &c.ViewMatrix[0])
+	gl.UniformMatrix4fv(c.viewMatrixLoc, 1, false, &c.viewMatrix[0])
 }
 
 // TODO: refactor entity interface so Update can be removed for cameras.
-func (c *Context) Update(dt float32, g *[]entity.Entity) {
+func (c *Camera2D) Update(dt float32, g *[]entity.Entity) {
 }
 
 // TODO: refactor entity interface so Draw can be removed for cameras.
-func (c Context) Draw() {
+func (c Camera2D) Draw() {
 }

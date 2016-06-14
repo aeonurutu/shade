@@ -18,23 +18,29 @@ package entity
 import (
 	"math"
 
-	"github.com/go-gl/mathgl/mgl32"
 	"github.com/aeonurutu/shade/shapes"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
-// Entity ...
-type Entity interface{}
+type Entity interface {
+	ID() string
+	Type() string
+}
 
-// Updater ...
 type Updater interface {
-	Update(dt float32, group *[]Entity)
+	Update(dt float32)
 }
 
-// Drawer ...
-type Drawer interface {
-	Pos() mgl32.Vec3
-	Draw()
-}
+// // Updater ...
+// type Updater interface {
+// 	Update(dt float32, group *[]Entity)
+// }
+//
+// // Drawer ...
+// type Drawer interface {
+// 	Pos() mgl32.Vec3
+// 	Draw()
+// }
 
 // Collider ...
 type Collider interface {

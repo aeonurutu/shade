@@ -17,7 +17,7 @@
 package camera
 
 import (
-	"github.com/convexbit/shade/entity"
+	"github.com/aeonurutu/shade/entity"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
 )

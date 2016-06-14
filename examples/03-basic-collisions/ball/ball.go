@@ -20,10 +20,10 @@ import (
 	"runtime"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/convexbit/shade/entity"
-	"github.com/convexbit/shade/fonts"
-	"github.com/convexbit/shade/shapes"
-	"github.com/convexbit/shade/sprite"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/fonts"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 func init() {

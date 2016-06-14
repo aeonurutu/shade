@@ -19,7 +19,7 @@ import (
 	"math"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/convexbit/shade/shapes"
+	"github.com/aeonurutu/shade/shapes"
 )
 
 // Entity ...

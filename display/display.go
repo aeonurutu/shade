@@ -22,7 +22,7 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
-	"github.com/convexbit/shade/events"
+	"github.com/aeonurutu/shade/events"
 )
 
 func init() {

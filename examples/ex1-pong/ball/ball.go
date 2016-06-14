@@ -21,10 +21,10 @@ import "time"
 import "math/rand"
 import (
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/convexbit/shade/entity"
-	"github.com/convexbit/shade/examples/ex1-pong/player"
-	"github.com/convexbit/shade/shapes"
-	"github.com/convexbit/shade/sprite"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/examples/ex1-pong/player"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 // Ball state

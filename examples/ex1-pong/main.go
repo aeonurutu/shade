@@ -20,9 +20,9 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/convexbit/shade/display"
-	"github.com/convexbit/shade/examples/ex1-pong/game"
-	"github.com/convexbit/shade/splash"
+	"github.com/aeonurutu/shade/display"
+	"github.com/aeonurutu/shade/examples/ex1-pong/game"
+	"github.com/aeonurutu/shade/splash"
 )
 
 var (

@@ -20,10 +20,10 @@ import "fmt"
 import (
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/convexbit/shade/entity"
-	"github.com/convexbit/shade/events"
-	"github.com/convexbit/shade/shapes"
-	"github.com/convexbit/shade/sprite"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 const NumToWin = 5

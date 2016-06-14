@@ -31,7 +31,7 @@ import (
 
 // Get file from archive
 func Get(name string) ([]byte, error) {
-	d, err := importPathToDir("github.com/convexbit/shade")
+	d, err := importPathToDir("github.com/aeonurutu/shade")
 	if err != nil {
 		return nil, err
 	}

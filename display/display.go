@@ -20,9 +20,10 @@ import (
 	"runtime"
 	"strings"
 
+	"github.com/aeonurutu/shade/events"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
-	"github.com/aeonurutu/shade/events"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 func init() {
@@ -32,10 +33,15 @@ func init() {
 
 // Context TODO doc
 type Context struct {
-	Window  *glfw.Window
-	Width   float32
-	Height  float32
-	Program uint32
+	Window     *glfw.Window
+	Width      float32
+	Height     float32
+	Program    uint32
+	projMatrix mgl32.Mat4
+}
+
+func (ctx *Context) ProjMatrix() *mgl32.Mat4 {
+	return &ctx.projMatrix
 }
 
 // Signal to close the window

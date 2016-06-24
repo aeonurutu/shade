@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ import (
 	"runtime"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/shapes"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 func init() {
@@ -33,14 +33,16 @@ type Block struct {
 	pos    mgl32.Vec3
 	Sprite *sprite.Context
 	Shape  *shapes.Shape
+	Index  float32
 }
 
 // New TODO doc
-func New(x, y float32, s *sprite.Context) *Block {
+func New(x, y float32, i float32, s *sprite.Context) *Block {
 	b := Block{
 		pos:    mgl32.Vec3{x, y, 1.0},
 		Sprite: s,
 		Shape:  shapes.NewRect(0, float32(s.Width), 0, float32(s.Height)),
+		Index:  i,
 	}
 	return &b
 }
@@ -62,5 +64,5 @@ func (b *Block) Bind(program uint32) error {
 func (b Block) Draw() {
 	//e *sprite.Effects) {
 	//b.Sprite.Draw(b.Pos, e)
-	b.Sprite.Draw(b.pos, nil)
+	b.Sprite.DrawFrame(mgl32.Vec2{b.Index, 0}, b.pos, nil)
 }

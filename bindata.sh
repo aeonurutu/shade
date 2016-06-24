@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2016 Richard Hawkins
+# Copyright 2016 Richard Hawkins, Alan Erwin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,20 +34,12 @@ CODE="// gen is a generated package, DO NOT EDIT!\n
 \n
 package gen\n
 \n
-var GitURL = \"https://github.com/hurricanerix/shade\"\n
+var GitURL = \"https://github.com/aeonurutu/shade\"\n
 var Version string = \"$VERSION\"\n
 var Hash string = \"$HASH\"\n
 "
 
-TMP=`go-bindata -version`
-if [ $? -ne 0 ]
-then
-  # go-bindata is required to embed assets into binary
-  echo "Downloading go-bindata"
-  go get -u github.com/jteeuwen/go-bindata/...
-fi
-
 # generate all the files we need
 mkdir -p $ROOT_PATH/gen
-go-bindata -pkg gen -ignore="/*.pyxel" -o $ROOT_PATH/gen/assets.go -prefix "../../" $ROOT_PATH/assets/
+tar cf assets.tar assets
 echo -e $CODE | gofmt > $ROOT_PATH/gen/build_info.go

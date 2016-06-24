@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,15 +24,15 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/camera"
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/examples/ex2-platform/block"
-	"github.com/hurricanerix/shade/examples/ex2-platform/player"
-	"github.com/hurricanerix/shade/fonts"
-	"github.com/hurricanerix/shade/sprite"
-	"github.com/hurricanerix/shade/time/clock"
+	"github.com/aeonurutu/shade/camera"
+	"github.com/aeonurutu/shade/display"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/examples/ex2-platform/block"
+	"github.com/aeonurutu/shade/examples/ex2-platform/player"
+	"github.com/aeonurutu/shade/fonts"
+	"github.com/aeonurutu/shade/sprite"
+	"github.com/aeonurutu/shade/time/clock"
 )
 
 func init() {
@@ -74,6 +74,7 @@ func (c *Context) Main(screen *display.Context, config Config) {
 	cam.TopStop = 64 * 6.5 // TODO: should be 64 x 14
 	cam.RightStop = 64 * 54
 	cam.LeftStop = 1
+	cam.BottomStop = 1
 	cam.Bind(c.Screen.Program)
 
 	scene, err := loadMap("map.data")
@@ -184,12 +185,12 @@ func (c *Context) Main(screen *display.Context, config Config) {
 func loadMap(path string) (*Scene, error) {
 	scene := Scene{}
 
-	playerSprite, err := loadSpriteAsset("assets/gopher128x128.png", "assets/gopher128x128.normal.png", 3, 2)
+	playerSprite, err := loadSpriteAsset("assets/gopher.png", "assets/gopher.normal.png", 5, 4)
 	if err != nil {
 		return &scene, err
 	}
 	scene.Sprites = append(scene.Sprites, playerSprite)
-	blockSprite, err := loadSpriteAsset("assets/block64x64.png", "assets/block64x64.normal.png", 1, 1)
+	blockSprite, err := loadSpriteAsset("assets/blocks.png", "assets/blocks.normal.png", 8, 1)
 	if err != nil {
 		return &scene, err
 	}
@@ -217,7 +218,11 @@ func loadMap(path string) (*Scene, error) {
 		for _, c := range lines[i] {
 			switch c {
 			case '#':
-				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), blockSprite))
+				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), 0, blockSprite))
+			case '-':
+				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), 1, blockSprite))
+			case 'D':
+				scene.Objects = append(scene.Objects, block.New(float32(x), float32(y), 2, blockSprite))
 			case 'S':
 				scene.Player = player.New(x, y, playerSprite)
 				scene.Objects = append(scene.Objects, scene.Player)

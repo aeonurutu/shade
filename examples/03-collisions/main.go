@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@ import (
 	"runtime"
 	"time"
 
+	"github.com/aeonurutu/shade/camera"
+	"github.com/aeonurutu/shade/display"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/examples/03-collisions/ball"
+	"github.com/aeonurutu/shade/examples/03-collisions/block"
+	"github.com/aeonurutu/shade/sprite"
+	"github.com/aeonurutu/shade/time/clock"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
-	"github.com/hurricanerix/shade/camera"
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/examples/03-collisions/ball"
-	"github.com/hurricanerix/shade/examples/03-collisions/block"
-	"github.com/hurricanerix/shade/sprite"
-	"github.com/hurricanerix/shade/time/clock"
 )
 
 const windowWidth = 640

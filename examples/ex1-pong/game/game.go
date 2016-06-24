@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,21 +17,21 @@ package game
 
 import (
 	"fmt"
-	"time"
 	"runtime"
+	"time"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/camera"
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/examples/ex1-pong/ball"
-	"github.com/hurricanerix/shade/examples/ex1-pong/player"
-	"github.com/hurricanerix/shade/fonts"
-	"github.com/hurricanerix/shade/sprite"
-	"github.com/hurricanerix/shade/time/clock"
+	"github.com/aeonurutu/shade/camera"
+	"github.com/aeonurutu/shade/display"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/examples/ex1-pong/ball"
+	"github.com/aeonurutu/shade/examples/ex1-pong/player"
+	"github.com/aeonurutu/shade/fonts"
+	"github.com/aeonurutu/shade/sprite"
+	"github.com/aeonurutu/shade/time/clock"
 )
 
 func init() {
@@ -141,10 +141,10 @@ func (c *Context) Main(screen *display.Context, config Config) {
 		}
 
 		// draw scores
-		msgScore1 :=  fmt.Sprintf("Score: %d", player1.Score)
+		msgScore1 := fmt.Sprintf("Score: %d", player1.Score)
 		font.DrawText(mgl32.Vec3{cam.Left, cam.Top - 15, 0}, &efxFont, msgScore1)
 
-		msgScore2 :=  fmt.Sprintf("Score: %d", player2.Score)
+		msgScore2 := fmt.Sprintf("Score: %d", player2.Score)
 		w, _ := font.SizeText(&efxFont, msgScore2)
 		font.DrawText(mgl32.Vec3{cam.Right - w, cam.Top - 15, 0}, &efxFont, msgScore2)
 
@@ -171,7 +171,7 @@ func (c *Context) Main(screen *display.Context, config Config) {
 
 		if hasWinner {
 			// wait and reset score
-			duration := time.Duration(5)*time.Second
+			duration := time.Duration(5) * time.Second
 			time.Sleep(duration)
 			player1.Score = 0
 			player2.Score = 0

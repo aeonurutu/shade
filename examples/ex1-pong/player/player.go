@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import "fmt"
 import (
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/shapes"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 const NumToWin = 5
@@ -72,7 +72,7 @@ func New(playerNum int, x, y float32, s *sprite.Context) *Player {
 }
 
 func (p *Player) SetShape() {
-	p.Shape = *shapes.NewRect(0, float32(p.Sprite.Width), 0, float32(p.Sprite.Height * (p.PaddleSize - 2)))
+	p.Shape = *shapes.NewRect(0, float32(p.Sprite.Width), 0, float32(p.Sprite.Height*(p.PaddleSize-2)))
 }
 
 func (p Player) Pos() mgl32.Vec3 {
@@ -126,9 +126,9 @@ func (p Player) Draw() {
 	p.Sprite.DrawFrame(mgl32.Vec2{0, 0}, mgl32.Vec3{posX, posY, 0}, nil)
 
 	// draw middle part(s) of paddle
-	for i := 0; i < p.PaddleSize - 2; i++ {
+	for i := 0; i < p.PaddleSize-2; i++ {
 		// position of paddle middle parts are offset by player posY minus (PaddleSize * i + 1, i.e. index of loop + 1)
-		midPosY := posY - float32(p.PaddleSize * (i+1))
+		midPosY := posY - float32(p.PaddleSize*(i+1))
 		p.Sprite.DrawFrame(mgl32.Vec2{0, 1}, mgl32.Vec3{posX, midPosY, 0}, nil)
 	}
 

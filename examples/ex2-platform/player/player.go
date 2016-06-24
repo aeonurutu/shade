@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@ import (
 
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/light"
-	"github.com/hurricanerix/shade/shapes"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/light"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 func init() {
@@ -54,12 +54,12 @@ func New(x, y float32, s *sprite.Context) *Player {
 	// TODO should take a group in as a argument
 	p := Player{
 		pos:    mgl32.Vec3{x, y, 1.0},
-		Shape:  shapes.NewRect(32, 96, 0, 96),
+		Shape:  shapes.NewRect(0, 0, 24, 24),
 		Sprite: s,
-		Facing: 2,
+		Facing: 1,
 	}
 	light := light.Positional{
-		Pos:   mgl32.Vec3{p.pos[0], float32(s.Height), 50.0},
+		Pos:   mgl32.Vec3{p.pos[0], float32(s.Height), 24.0},
 		Color: mgl32.Vec4{0.7, 0.7, 1.0, 1.0},
 		Power: 10000,
 	}
@@ -112,12 +112,12 @@ func (p *Player) Update(dt float32, group *[]entity.Entity) {
 	if p.leftKey {
 		p.pos[0] -= 300.0 * dt
 		p.Light.Pos[0] = p.pos[0]
-		p.Facing = 1
+		p.Facing = 0
 		p.Walking = true
 	}
 	if p.rightKey {
 		p.pos[0] += 300.0 * dt
-		p.Facing = 2
+		p.Facing = 1
 		p.Light.Pos[0] = p.pos[0] + float32(p.Sprite.Width)
 		p.Walking = true
 	}
@@ -131,9 +131,9 @@ func (p *Player) Update(dt float32, group *[]entity.Entity) {
 	newPos := &p.pos
 	p.Resting = false
 
-	if p.pos[1] < 127 {
+	if p.pos[1] < 47 {
 		p.Resting = true
-		p.pos[1] = 128
+		p.pos[1] = 48
 		p.dy = 0.0
 	}
 
@@ -171,16 +171,16 @@ func (p *Player) Update(dt float32, group *[]entity.Entity) {
 // Draw TODO doc
 func (p *Player) Draw() {
 	if !p.Walking || !p.Resting {
-		p.Sprite.DrawFrame(mgl32.Vec2{0, p.Facing}, p.pos, nil)
+		p.Sprite.DrawFrame(mgl32.Vec2{1, p.Facing}, p.pos, nil)
 	} else {
 		frame := float32(int(p.dy) % 2)
 		switch {
 		case p.whichLeg == 0:
-			p.whichLeg = 1
-		case p.whichLeg == 1:
 			p.whichLeg = 2
+		case p.whichLeg == 1:
+			p.whichLeg = 4
 		case p.whichLeg == 2:
-			p.whichLeg = 1
+			p.whichLeg = 3
 		}
 		p.Sprite.DrawFrame(mgl32.Vec2{frame + float32(p.whichLeg), p.Facing}, p.pos, nil)
 	}

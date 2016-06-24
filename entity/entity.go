@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,23 +18,29 @@ package entity
 import (
 	"math"
 
+	"github.com/aeonurutu/shade/shapes"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/shapes"
 )
 
-// Entity ...
-type Entity interface{}
+type Entity interface {
+	ID() string
+	Type() string
+}
 
-// Updater ...
 type Updater interface {
-	Update(dt float32, group *[]Entity)
+	Update(dt float32)
 }
 
-// Drawer ...
-type Drawer interface {
-	Pos() mgl32.Vec3
-	Draw()
-}
+// // Updater ...
+// type Updater interface {
+// 	Update(dt float32, group *[]Entity)
+// }
+//
+// // Drawer ...
+// type Drawer interface {
+// 	Pos() mgl32.Vec3
+// 	Draw()
+// }
 
 // Collider ...
 type Collider interface {
@@ -174,23 +180,23 @@ func mixedTest(ap, bp mgl32.Vec3, ab, bb shapes.Shape, ignoreZ bool) (bool, mgl3
  * See: http://www.vobarian.com/collisions/2dcollisions2.pdf
  *
  * Find unit normal and unit tangent vectors. The unit normal vector is a
- * vector which has a magnitude of 1 and a direction that is normal 
+ * vector which has a magnitude of 1 and a direction that is normal
  * (perpendicular) to the surfaces of the objects at the point of collision.
  * The unit tangent vector is a vector with a magnitude of 1 which is
  * tangent to the circles' surfaces at the point of collision.
  *
- * First find a normal vector. This is done by taking a vector whose 
- * components are the difference between the coordinates of the centers 
- * of the circles. Let x1, x2, y1, and y2 be the x and y coordinates of 
- * the centers of the circles. (It does not matter which circle is 
- * labeled 1 or 2; the end result will be the same.) Then the normal 
+ * First find a normal vector. This is done by taking a vector whose
+ * components are the difference between the coordinates of the centers
+ * of the circles. Let x1, x2, y1, and y2 be the x and y coordinates of
+ * the centers of the circles. (It does not matter which circle is
+ * labeled 1 or 2; the end result will be the same.) Then the normal
  * vector n is:
  *
  * n→  =〈 x_2 − x_1, y_2 − y_1 〉
  *
  * Next, find the unit vector of n→, which we will call un→.
  * This is done by dividing by the magnitude of n→:
- * 
+ *
  * un→ =  n→ / (sqrt(n_x^2 + n_y^2))
  */
 func getDir(aPos, bPos mgl32.Vec3) mgl32.Vec3 {
@@ -207,7 +213,7 @@ func getDir(aPos, bPos mgl32.Vec3) mgl32.Vec3 {
 		// but what are the side effects of doing this?
 		return mgl32.Vec3{}
 	}
-	uv := mgl32.Vec3{xdiff / denominator, 
+	uv := mgl32.Vec3{xdiff / denominator,
 		ydiff / denominator,
 		1 /*zdiff / denominator*/}
 	return uv

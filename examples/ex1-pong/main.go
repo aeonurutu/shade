@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/examples/ex1-pong/game"
-	"github.com/hurricanerix/shade/splash"
+	"github.com/aeonurutu/shade/display"
+	"github.com/aeonurutu/shade/examples/ex1-pong/game"
+	"github.com/aeonurutu/shade/splash"
 )
 
 var (

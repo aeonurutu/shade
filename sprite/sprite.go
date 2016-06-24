@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ import (
 	"os"
 	"runtime"
 
+	"github.com/aeonurutu/shade/archive"
+	"github.com/aeonurutu/shade/light"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/gen"
-	"github.com/hurricanerix/shade/light"
 )
 
 func init() {
@@ -97,7 +97,7 @@ func LoadAsset(name string) (image.Image, error) {
 		return nil, nil
 	}
 
-	imgFile, err := gen.Asset(name)
+	imgFile, err := archive.Get(name)
 	if err != nil {
 		return nil, fmt.Errorf("could not load asset %s: %v", name, err)
 	}

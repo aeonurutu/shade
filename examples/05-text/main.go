@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/camera"
-	"github.com/hurricanerix/shade/display"
-	"github.com/hurricanerix/shade/events"
-	"github.com/hurricanerix/shade/fonts"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/aeonurutu/shade/camera"
+	"github.com/aeonurutu/shade/display"
+	"github.com/aeonurutu/shade/events"
+	"github.com/aeonurutu/shade/fonts"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 const windowWidth = 640

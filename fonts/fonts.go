@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import (
 	"runtime"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 func init() {
@@ -47,7 +47,7 @@ func New(s *sprite.Context, m map[int32]mgl32.Vec2, u mgl32.Vec2) (*Context, err
 }
 
 func SimpleASCII() (*Context, error) {
-	path := fmt.Sprintf("%s/src/github.com/hurricanerix/shade/assets/font.png", os.Getenv("GOPATH"))
+	path := fmt.Sprintf("%s/src/github.com/aeonurutu/shade/assets/font.png", os.Getenv("GOPATH"))
 	i, err := sprite.Load(path)
 	if err != nil {
 		return nil, err

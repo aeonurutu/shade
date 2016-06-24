@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins
+// Copyright 2016 Richard Hawkins, Alan Erwin
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import (
 	"runtime"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/hurricanerix/shade/entity"
-	"github.com/hurricanerix/shade/fonts"
-	"github.com/hurricanerix/shade/shapes"
-	"github.com/hurricanerix/shade/sprite"
+	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/fonts"
+	"github.com/aeonurutu/shade/shapes"
+	"github.com/aeonurutu/shade/sprite"
 )
 
 func init() {

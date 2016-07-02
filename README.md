@@ -51,6 +51,21 @@ cd $GOPATH/src/github.com/aeonurutu/examples/ex2-platform
 go run main.go
 ```
 
+Contributing
+------------
+
+To run tests:
+
+```
+$ go test ./...
+```
+
+To view the CI status
+
+```
+$ go test ./... | awk -f ci.awk
+```
+
 Attribution
 -----------
 

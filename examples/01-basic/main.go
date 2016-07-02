@@ -21,16 +21,16 @@ import (
 	"io"
 	"os"
 
+	"github.com/aeonurutu/shade"
 	"github.com/aeonurutu/shade/camera"
 	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/engine"
 	"github.com/aeonurutu/shade/entity"
 	"github.com/aeonurutu/shade/scene"
 )
 
 func main() {
 	// Configure the engine
-	eng := engine.New("01-basic")
+	eng := shade.New("01-basic")
 
 	// Configure your app
 	scene := &MyScene{}

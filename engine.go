@@ -37,10 +37,32 @@ A simple invocation of the engine can be done as follows:
 */
 package shade
 
+//go:generate ./gen-code.sh
+
 import (
+	"flag"
+	"runtime"
+	"strconv"
+
 	"github.com/aeonurutu/shade/entity"
 	"github.com/go-gl/mathgl/mgl32"
 )
+
+var (
+	allowDevMode string
+	devFlag      bool
+)
+
+func init() {
+	// GLFW event handling must run on the main OS thread
+	runtime.LockOSThread()
+
+	// allowDevMode should be set with ldflags
+	adm, _ := strconv.ParseBool(allowDevMode)
+	if adm {
+		flag.BoolVar(&devFlag, "dev", false, "dev mode.")
+	}
+}
 
 // Scene represents a View along with a collection of Entities and or SubScenes.
 type Scene interface {
@@ -58,7 +80,8 @@ type Scene interface {
 
 // Engine contains state for the core systems of a 2.5D game.
 type Engine struct {
-	Title string
+	Title        string
+	AllowDevMode bool
 }
 
 // New returns a pointer to an Engine.
@@ -71,6 +94,8 @@ func New(title string) *Engine {
 
 // Run a Scene with an existing Engine.
 func (e *Engine) Run(scene Scene) error {
+	flag.Parse()
+
 	var err error
 	running := true
 

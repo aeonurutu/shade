@@ -18,6 +18,7 @@ if [ -z "$ROOT_PATH" ]; then
 	ROOT_PATH="."
 fi
 
+# === Generate info about Shade ===
 HASH=`git log -n 1 | grep commit | cut -d " " -f 2`
 VERSION="0.0" # `git describe --abbrev=0`
 
@@ -30,7 +31,17 @@ if [ $PRE_RELEASE ]; then
   VERSION="$VERSION.$HASH"
 fi
 
-CODE="// gen is a generated package, DO NOT EDIT!\n
+# CODE="// gen is a generated package, DO NOT EDIT!\n
+# \n
+# package gen\n
+# \n
+# var GitURL = \"https://github.com/aeonurutu/shade\"\n
+# var Version string = \"$VERSION\"\n
+# var Hash string = \"$HASH\"\n
+# "
+
+CODE="// CODE GENERATED AUTOMATICALLY WITH github.com/aeonurutu/shade/gen.sh\n
+// THIS FILE SHOULD NOT BE EDITED BY HAND\n
 \n
 package gen\n
 \n
@@ -38,8 +49,9 @@ var GitURL = \"https://github.com/aeonurutu/shade\"\n
 var Version string = \"$VERSION\"\n
 var Hash string = \"$HASH\"\n
 "
-
-# generate all the files we need
 mkdir -p $ROOT_PATH/gen
-tar cf assets.tar assets
-echo -e $CODE | gofmt > $ROOT_PATH/gen/build_info.go
+echo -e $CODE | gofmt > $ROOT_PATH/gen/info.go
+
+# === Build assets ===
+tar cf assets.tar --exclude="*.pyxel" assets
+tar cf example_assets.tar --exclude="*.pyxel" examples/assets

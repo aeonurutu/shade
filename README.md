@@ -51,6 +51,16 @@ cd $GOPATH/src/github.com/aeonurutu/examples/ex2-platform
 go run main.go
 ```
 
+=======
+Dev Mode
+--------
+
+To compile your app with the Shade's dev option available:
+
+```
+$ go build -ldflags="-X github.com/aeonurutu/shade.allowDevMode=true" main.go
+```
+
 Contributing
 ------------
 

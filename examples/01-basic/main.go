@@ -13,6 +13,8 @@
 // limitations under the License.
 // Package app manages the main game loop.
 
+//go:generate go generate github.com/aeonurutu/shade
+
 package main
 
 import (

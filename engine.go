@@ -17,6 +17,10 @@ Package shade is a 2.5D game engine.
 
 A simple invocation of the engine can be done as follows:
 
+  //go:generate go generate github.com/aeonurutu/shade
+
+  package main
+
   import (
     "github.com/aeonurutu/shade"
     "mygame"
@@ -34,10 +38,23 @@ A simple invocation of the engine can be done as follows:
       panic(err)
     }
   }
+
+To run the app in dev mode, use the following:
+
+	$ go run -ldflags="-X github.com/aeonurutu/shade.allowDevMode=true" main.go -dev
+
+When building your app, make sure to run go generate first to ensure that
+Shade's generated files are up to date.
+
+	$ go generate
+	$ go build -ldflags="-X github.com/aeonurutu/shade.allowDevMode=true" main.go -o appname-dev
+	$ # or
+	$ go build -o appname main.go
+
 */
 package shade
 
-//go:generate ./gen-code.sh
+//go:generate ./gen.sh
 
 import (
 	"flag"

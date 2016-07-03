@@ -41,9 +41,12 @@ package shade
 
 import (
 	"flag"
+	"log"
 	"runtime"
 	"strconv"
 
+	"github.com/aeonurutu/shade/dev"
+	"github.com/aeonurutu/shade/display"
 	"github.com/aeonurutu/shade/entity"
 	"github.com/go-gl/mathgl/mgl32"
 )
@@ -94,9 +97,20 @@ func New(title string) *Engine {
 
 // Run a Scene with an existing Engine.
 func (e *Engine) Run(scene Scene) error {
+	var err error
 	flag.Parse()
 
-	var err error
+	screen, err := display.SetMode(e.Title, 512, 512)
+	if err != nil {
+		log.Fatalln("failed to set display mode:", err)
+	}
+	println(screen)
+
+	var devDisplay *dev.Context
+	if devFlag {
+		devDisplay = dev.New()
+	}
+
 	running := true
 
 	err = scene.Setup()
@@ -116,6 +130,11 @@ func (e *Engine) Run(scene Scene) error {
 	for running {
 		for _, ent := range scene.Entities() {
 			println(ent)
+		}
+
+		if devDisplay != nil {
+			devDisplay.Update()
+			devDisplay.Draw()
 		}
 
 		if scene.ShouldStop() {

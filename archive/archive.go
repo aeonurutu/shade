@@ -29,7 +29,7 @@ import (
 	"os"
 )
 
-// Get file from archive
+// Get file from archive as []byte.
 func Get(name string) ([]byte, error) {
 	d, err := importPathToDir("github.com/aeonurutu/shade")
 	if err != nil {

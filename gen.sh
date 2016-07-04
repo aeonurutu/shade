@@ -53,5 +53,5 @@ mkdir -p $ROOT_PATH/gen
 echo -e $CODE | gofmt > $ROOT_PATH/gen/info.go
 
 # === Build assets ===
-tar cf assets.tar --exclude="*.pyxel" assets
-tar cf example_assets.tar --exclude="*.pyxel" examples/assets
+tar cf assets.tar --exclude="*.pyxel" -C assets .
+tar cf example_assets.tar --exclude="*.pyxel" -C examples/assets .

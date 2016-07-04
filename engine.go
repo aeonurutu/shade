@@ -54,7 +54,7 @@ Shade's generated files are up to date.
 */
 package shade
 
-//go:generate ./gen.sh
+//go:generate ./scripts/gen.sh
 
 import (
 	"flag"

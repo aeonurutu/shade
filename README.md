@@ -47,7 +47,7 @@ $ go get github.com/aeonurutu/shade/...
 To test your install:
 
 ```
-cd $GOPATH/src/github.com/aeonurutu/examples/ex2-platform
+cd $GOPATH/src/github.com/aeonurutu/shade/examples/demos/platformer
 go run main.go
 ```
 

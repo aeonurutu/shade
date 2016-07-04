@@ -68,9 +68,9 @@ func (ctx *MyScene) Setup() error {
 
 // Entities for MyScene
 func (ctx *MyScene) Entities() []entity.Entity {
-	fmt.Println("MyScene.Entities()")
-	fmt.Println(ctx.image)
-	ctx.count++
+	//fmt.Println("MyScene.Entities()")
+	//t.Println(ctx.image)
+	//ctx.count++
 	// TODO(hurricanerix): return sprite
 	return nil
 }
@@ -79,9 +79,9 @@ func (ctx *MyScene) Entities() []entity.Entity {
 func (ctx MyScene) ShouldStop() bool {
 	// TODO(hurricanerix): This should really be triggered by user input, but
 	//  will work for now.
-	if ctx.count > 10 {
-		return true
-	}
+	// if ctx.count > 10 {
+	// 	return true
+	// }
 	return false
 }
 

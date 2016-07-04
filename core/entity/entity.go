@@ -24,24 +24,25 @@ import (
 )
 
 type Entity interface {
-	ID() string
-	Type() string
+	//ID() string
+	//Type() string
 }
 
-type Updater interface {
-	Update(dt float32)
-}
+// type Updater interface {
+// 	Update(dt float32)
+// }
 
 // // Updater ...
-// type Updater interface {
-// 	Update(dt float32, group *[]Entity)
-// }
+type Updater interface {
+	Update(dt float32, group *[]Entity)
+}
+
 //
 // // Drawer ...
-// type Drawer interface {
-// 	Pos() mgl32.Vec3
-// 	Draw()
-// }
+type Drawer interface {
+	Pos() mgl32.Vec3
+	Draw()
+}
 
 // Collider ...
 type Collider interface {

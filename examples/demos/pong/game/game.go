@@ -16,7 +16,9 @@
 package game
 
 import (
+	"bytes"
 	"fmt"
+	"image"
 	"runtime"
 	"time"
 
@@ -29,6 +31,7 @@ import (
 	"github.com/aeonurutu/shade/core/entity"
 	"github.com/aeonurutu/shade/core/events"
 	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/archive"
 	"github.com/aeonurutu/shade/core/util/fonts"
 	"github.com/aeonurutu/shade/core/util/sprite"
 
@@ -183,15 +186,19 @@ func (c *Context) Main(screen *display.Context, config Config) {
 }
 
 func loadSpriteAsset(colorName, normalName string, framesWide, framesHigh int) (*sprite.Context, error) {
-	c, err := sprite.LoadAsset(colorName)
+	c, err := archive.Get("example_assets.tar", colorName)
 	if err != nil {
 		return nil, err
 	}
-	n, err := sprite.LoadAsset(normalName)
+	ic, _, err := image.Decode(bytes.NewReader(c))
+
+	n, err := archive.Get("example_assets.tar", normalName)
 	if err != nil {
 		return nil, err
 	}
-	s, err := sprite.New(c, n, framesWide, framesHigh)
+	in, _, err := image.Decode(bytes.NewReader(n))
+
+	s, err := sprite.New(ic, in, framesWide, framesHigh)
 	if err != nil {
 		return nil, err
 	}

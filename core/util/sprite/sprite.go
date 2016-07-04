@@ -98,7 +98,7 @@ func LoadAsset(name string) (image.Image, error) {
 		return nil, nil
 	}
 
-	imgFile, err := archive.Get(name)
+	imgFile, err := archive.Get("assets.tar", name)
 	if err != nil {
 		return nil, fmt.Errorf("could not load asset %s: %v", name, err)
 	}

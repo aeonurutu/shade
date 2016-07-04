@@ -16,6 +16,8 @@
 package splash
 
 import (
+	"bytes"
+	"image"
 	_ "image/png"
 	"runtime"
 
@@ -28,6 +30,7 @@ import (
 	"github.com/aeonurutu/shade/core/events"
 	"github.com/aeonurutu/shade/core/splash/ghost"
 	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/archive"
 	"github.com/aeonurutu/shade/core/util/fonts"
 	"github.com/aeonurutu/shade/core/util/sprite"
 )
@@ -108,17 +111,19 @@ func Main(screen *display.Context) {
 }
 
 func loadFont() (*fonts.Context, error) {
-	c, err := sprite.LoadAsset("assets/splash-font.png")
+	c, err := archive.Get("assets.tar", "./splash-font.png")
 	if err != nil {
 		return nil, err
 	}
+	ic, _, err := image.Decode(bytes.NewReader(c))
 
-	n, err := sprite.LoadAsset("assets/splash-font.normal.png")
+	n, err := archive.Get("assets.tar", "./splash-font.normal.png")
 	if err != nil {
 		return nil, err
 	}
+	in, _, err := image.Decode(bytes.NewReader(n))
 
-	s, err := sprite.New(c, n, 32, 3)
+	s, err := sprite.New(ic, in, 32, 3)
 	if err != nil {
 		return nil, err
 	}

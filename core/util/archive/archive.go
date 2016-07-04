@@ -30,13 +30,13 @@ import (
 )
 
 // Get file from archive as []byte.
-func Get(name string) ([]byte, error) {
+func Get(filename, key string) ([]byte, error) {
 	d, err := importPathToDir("github.com/aeonurutu/shade")
 	if err != nil {
 		return nil, err
 	}
 
-	filepath := fmt.Sprintf("%s/assets.tar", d)
+	filepath := fmt.Sprintf("%s/%s", d, filename)
 	f, err := os.Open(filepath)
 	if err != nil {
 		panic(err)
@@ -61,11 +61,11 @@ func Get(name string) ([]byte, error) {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		if name == hdr.Name {
+		if key == hdr.Name {
 			return ioutil.ReadAll(tr)
 		}
 	}
-	return nil, fmt.Errorf("Could not find '%s'", name)
+	return nil, fmt.Errorf("Could not find '%s'", key)
 }
 
 // importPathToDir resolves the absolute path from importPath.

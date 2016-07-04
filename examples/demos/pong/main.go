@@ -15,6 +15,8 @@
 
 package main
 
+//go:generate go generate github.com/aeonurutu/shade
+
 import (
 	"flag"
 	"log"

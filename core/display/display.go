@@ -144,6 +144,7 @@ func (c *Context) Flip() {
 	c.Window.SwapBuffers()
 }
 
+// TODO(hurricanerix): Use shader package for this...
 func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error) {
 	vertShader, err := compileShader(vertexShaderSource, gl.VERTEX_SHADER)
 	if err != nil {

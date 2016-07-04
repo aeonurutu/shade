@@ -62,10 +62,13 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/go-gl/glfw/v3.1/glfw"
+	"github.com/go-gl/mathgl/mgl32"
+
 	"github.com/aeonurutu/shade/core/dev"
 	"github.com/aeonurutu/shade/core/display"
 	"github.com/aeonurutu/shade/core/entity"
-	"github.com/go-gl/mathgl/mgl32"
+	"github.com/aeonurutu/shade/core/events"
 )
 
 var (
@@ -144,7 +147,19 @@ func (e *Engine) Run(scene Scene) error {
 		}
 	}
 
+	screen.Fill(0, 0, 0)
 	for running {
+		for _, event := range events.Get() {
+			if event.Type == events.KeyUp && event.Key == glfw.KeyEscape {
+				// Send window close event
+				screen.Close()
+			}
+			if event.Type == events.WindowClose {
+				// Handle window close
+				running = false
+			}
+		}
+
 		for _, ent := range scene.Entities() {
 			println(ent)
 		}

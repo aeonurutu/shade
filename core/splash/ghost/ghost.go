@@ -16,6 +16,10 @@
 package ghost
 
 import (
+	"bytes"
+	"fmt"
+	"image"
+	_ "image/png"
 	"math"
 	"runtime"
 
@@ -24,6 +28,7 @@ import (
 	"github.com/aeonurutu/shade/core/entity"
 	"github.com/aeonurutu/shade/core/light"
 	"github.com/aeonurutu/shade/core/shapes"
+	"github.com/aeonurutu/shade/core/util/archive"
 	"github.com/aeonurutu/shade/core/util/sprite"
 )
 
@@ -48,11 +53,16 @@ type Ghost struct {
 
 // New TODO doc
 func New() *Ghost {
-	i, err := sprite.LoadAsset("assets/ghost.png")
+	g, err := archive.Get("assets.tar", "./ghost.png")
+	if err != nil {
+		panic(err)
+	}
+	i, _, err := image.Decode(bytes.NewReader(g))
 	if err != nil {
 		// TODO: move sprite loading out side of ghost
 		panic(err)
 	}
+	fmt.Println(i)
 	s, err := sprite.New(i, nil, 6, 3)
 	if err != nil {
 		panic(err)

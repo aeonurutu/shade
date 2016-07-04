@@ -24,11 +24,12 @@ import (
 	"fmt"
 	"unsafe"
 
-	"github.com/aeonurutu/shade/archive"
-	"github.com/aeonurutu/shade/gen"
-	"github.com/aeonurutu/shade/shader"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
+
+	"github.com/aeonurutu/shade/core/gen"
+	"github.com/aeonurutu/shade/core/shader"
+	"github.com/aeonurutu/shade/core/util/archive"
 )
 
 const ( // Program IDs

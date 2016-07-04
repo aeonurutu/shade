@@ -16,14 +16,16 @@
 
 package player
 
-import "fmt"
 import (
+	"fmt"
+
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/events"
-	"github.com/aeonurutu/shade/shapes"
-	"github.com/aeonurutu/shade/sprite"
+
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/shapes"
+	"github.com/aeonurutu/shade/core/util/sprite"
 )
 
 const NumToWin = 5

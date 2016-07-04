@@ -16,15 +16,18 @@
 
 package ball
 
-import "fmt"
-import "time"
-import "math/rand"
 import (
+	"fmt"
+	"math/rand"
+	"time"
+
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/examples/ex1-pong/player"
-	"github.com/aeonurutu/shade/shapes"
-	"github.com/aeonurutu/shade/sprite"
+
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/shapes"
+	"github.com/aeonurutu/shade/core/util/sprite"
+
+	"github.com/aeonurutu/shade/examples/demos/pong/player"
 )
 
 // Ball state

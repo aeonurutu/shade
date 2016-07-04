@@ -20,14 +20,15 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/events"
-	"github.com/aeonurutu/shade/light"
-	"github.com/aeonurutu/shade/sprite"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/light"
+	"github.com/aeonurutu/shade/core/util/sprite"
 )
 
 const windowWidth = 640

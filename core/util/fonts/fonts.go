@@ -21,7 +21,8 @@ import (
 	"runtime"
 
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/aeonurutu/shade/sprite"
+
+	"github.com/aeonurutu/shade/core/util/sprite"
 )
 
 func init() {

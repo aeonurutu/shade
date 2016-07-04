@@ -22,13 +22,14 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/events"
-	"github.com/aeonurutu/shade/fonts"
-	"github.com/aeonurutu/shade/splash/ghost"
-	"github.com/aeonurutu/shade/sprite"
-	"github.com/aeonurutu/shade/time/clock"
+
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/splash/ghost"
+	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/fonts"
+	"github.com/aeonurutu/shade/core/util/sprite"
 )
 
 func init() {

@@ -24,10 +24,11 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/aeonurutu/shade/archive"
-	"github.com/aeonurutu/shade/light"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/light"
+	"github.com/aeonurutu/shade/core/util/archive"
 )
 
 func init() {

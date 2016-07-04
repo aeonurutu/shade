@@ -20,10 +20,11 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/aeonurutu/shade/events"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/events"
 )
 
 func init() {

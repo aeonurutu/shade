@@ -18,8 +18,9 @@ package entity
 import (
 	"math"
 
-	"github.com/aeonurutu/shade/shapes"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/shapes"
 )
 
 type Entity interface {

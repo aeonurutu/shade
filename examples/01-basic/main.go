@@ -24,10 +24,10 @@ import (
 	"os"
 
 	"github.com/aeonurutu/shade"
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/scene"
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/scene"
 )
 
 func main() {

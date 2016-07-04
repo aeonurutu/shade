@@ -62,9 +62,9 @@ import (
 	"runtime"
 	"strconv"
 
-	"github.com/aeonurutu/shade/dev"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/entity"
+	"github.com/aeonurutu/shade/core/dev"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/entity"
 	"github.com/go-gl/mathgl/mgl32"
 )
 

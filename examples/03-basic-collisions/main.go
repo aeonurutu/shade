@@ -20,20 +20,22 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/events"
-	"github.com/aeonurutu/shade/examples/03-basic-collisions/ball"
-	"github.com/aeonurutu/shade/examples/03-basic-collisions/block"
-	"github.com/aeonurutu/shade/examples/03-basic-collisions/player"
-	"github.com/aeonurutu/shade/fonts"
-	"github.com/aeonurutu/shade/shapes"
-	"github.com/aeonurutu/shade/sprite"
-	"github.com/aeonurutu/shade/time/clock"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/shapes"
+	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/fonts"
+	"github.com/aeonurutu/shade/core/util/sprite"
+
+	"github.com/aeonurutu/shade/examples/03-basic-collisions/ball"
+	"github.com/aeonurutu/shade/examples/03-basic-collisions/block"
+	"github.com/aeonurutu/shade/examples/03-basic-collisions/player"
 )
 
 const windowWidth = 640

@@ -17,8 +17,8 @@ package shade
 import (
 	"testing"
 
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/scene"
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/scene"
 	"github.com/go-gl/mathgl/mgl32"
 )
 

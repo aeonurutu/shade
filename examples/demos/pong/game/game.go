@@ -30,6 +30,7 @@ import (
 	"github.com/aeonurutu/shade/core/display"
 	"github.com/aeonurutu/shade/core/entity"
 	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/scene"
 	"github.com/aeonurutu/shade/core/time/clock"
 	"github.com/aeonurutu/shade/core/util/archive"
 	"github.com/aeonurutu/shade/core/util/fonts"
@@ -51,18 +52,46 @@ type Config struct {
 
 // Context TODO doc
 type Context struct {
-	Screen *display.Context
+	Screen          *display.Context
+	camera.Camera2D // needed for default ViewMatrix() func
+	display.Context // needed for default ProjMatrix() func
+	scene.Single    // needed for default SubScenes() func
 }
 
 // New TODO doc
-func New(screen *display.Context) (Context, error) {
-	return Context{
-		Screen: screen,
-	}, nil
+func New() *Context {
+	ctx := Context{
+	//Screen: screen,
+	}
+	return &ctx
+}
+
+// Setup Game
+func (ctx *Context) Setup() error {
+	fmt.Println("MyScene.Setup()")
+	return nil
+}
+
+// Entities for Game
+func (ctx *Context) Entities() []entity.Entity {
+	return nil
+}
+
+// ShouldStop Game when
+func (ctx Context) ShouldStop() bool {
+	return false
+}
+
+// Cleanup Game
+func (ctx *Context) Cleanup() {
+	fmt.Println("MyScene.Cleanup()")
 }
 
 // Main TODO doc
-func (c *Context) Main(screen *display.Context, config Config) {
+func (c *Context) Main() {
+	var screen *display.Context
+	var config *Config
+
 	cam, err := camera.New()
 	if err != nil {
 		panic(err)

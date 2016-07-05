@@ -86,6 +86,7 @@ func init() {
 	if allow, _ := strconv.ParseBool(allowDevMode); allow {
 		flag.BoolVar(&devFlag, "dev", false, "dev mode.")
 	}
+	// TODO(hurricanerix): flag.BoolVar(&nosplash, "nosplash", false, "don't show splash screen.")
 }
 
 // Scene represents a View along with a collection of Entities and or SubScenes.

@@ -41,6 +41,7 @@ func init() {
 }
 
 func Main(screen *display.Context) {
+	screen.Window.MakeContextCurrent()
 	cam, err := camera.New()
 	if err != nil {
 		panic(err)

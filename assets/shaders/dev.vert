@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#version 410 core
+#version 120
 
-layout (location = 0) in vec4 mcVertex;
+attribute vec4 mcVertex;
 
 void
 main()

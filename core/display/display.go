@@ -68,11 +68,6 @@ func SetMode(title string, width, height int) (*Context, error) {
 		Width:  float32(width),
 		Height: float32(height),
 	}
-	if err := glfw.Init(); err != nil {
-		return &c, fmt.Errorf("failed to initialize glfw: %v", err)
-	}
-	// TODO: move this to a terminate function
-	//defer glfw.Terminate()
 
 	supportedVersions := [][2]int{
 		// TODO: create matching shaders for these versions

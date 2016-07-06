@@ -1,5 +1,5 @@
 *.swp
 *.swo
 *.tar
-gen/*
-!gen/doc.go
+core/gen/*
+!core/gen/doc.go

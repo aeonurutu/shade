@@ -20,9 +20,10 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/examples/ex2-platform/game"
-	"github.com/aeonurutu/shade/splash"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/splash"
+
+	"github.com/aeonurutu/shade/examples/demos/platformer/game"
 )
 
 var (

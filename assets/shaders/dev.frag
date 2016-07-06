@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#version 410 core
+#version 120
 
-out vec4 fragColor;
+// out vec4 FragColor;
 
 void
 main()
 {
-	fragColor = vec4(0.0, 0.0, 1.0, 1.0);
+	gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
 }

@@ -16,19 +16,23 @@
 package splash
 
 import (
+	"bytes"
+	"image"
 	_ "image/png"
 	"runtime"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/events"
-	"github.com/aeonurutu/shade/fonts"
-	"github.com/aeonurutu/shade/splash/ghost"
-	"github.com/aeonurutu/shade/sprite"
-	"github.com/aeonurutu/shade/time/clock"
+
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/splash/ghost"
+	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/archive"
+	"github.com/aeonurutu/shade/core/util/fonts"
+	"github.com/aeonurutu/shade/core/util/sprite"
 )
 
 func init() {
@@ -37,6 +41,7 @@ func init() {
 }
 
 func Main(screen *display.Context) {
+	screen.Window.MakeContextCurrent()
 	cam, err := camera.New()
 	if err != nil {
 		panic(err)
@@ -107,17 +112,19 @@ func Main(screen *display.Context) {
 }
 
 func loadFont() (*fonts.Context, error) {
-	c, err := sprite.LoadAsset("assets/splash-font.png")
+	c, err := archive.Get("assets.tar", "./splash-font.png")
 	if err != nil {
 		return nil, err
 	}
+	ic, _, err := image.Decode(bytes.NewReader(c))
 
-	n, err := sprite.LoadAsset("assets/splash-font.normal.png")
+	n, err := archive.Get("assets.tar", "./splash-font.normal.png")
 	if err != nil {
 		return nil, err
 	}
+	in, _, err := image.Decode(bytes.NewReader(n))
 
-	s, err := sprite.New(c, n, 32, 3)
+	s, err := sprite.New(ic, in, 32, 3)
 	if err != nil {
 		return nil, err
 	}

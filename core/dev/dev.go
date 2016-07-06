@@ -24,11 +24,12 @@ import (
 	"fmt"
 	"unsafe"
 
-	"github.com/aeonurutu/shade/archive"
-	"github.com/aeonurutu/shade/gen"
-	"github.com/aeonurutu/shade/shader"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
+
+	"github.com/aeonurutu/shade/core/gen"
+	"github.com/aeonurutu/shade/core/shader"
+	"github.com/aeonurutu/shade/core/util/archive"
 )
 
 const ( // Program IDs
@@ -71,15 +72,16 @@ func New() *Context {
 
 	c := Context{}
 
+	// TODO(hurricanerix): This should really use the display package.
 	c.Window = createDevWindow()
 	c.Window.MakeContextCurrent()
 
-	vertSrc, err := archive.Get("./shaders/dev.vert")
+	vertSrc, err := archive.Get("./assets.tar", "./shaders/dev.vert")
 	if err != nil {
 		panic(err)
 	}
 
-	fragSrc, err := archive.Get("./shaders/dev.frag")
+	fragSrc, err := archive.Get("./assets.tar", "./shaders/dev.frag")
 	if err != nil {
 		panic(err)
 	}
@@ -127,13 +129,8 @@ func (ctx *Context) Update() {
 }
 
 func (ctx *Context) Draw() {
-	if ctx.Window != nil {
-		ctx.Window.MakeContextCurrent()
-	}
 	gl.UseProgram(programs[trianglesProgID])
-	// Clear buffer
-	gl.ClearColor(1.0, 0.0, 0.0, 1.0)
-	gl.Clear(gl.COLOR_BUFFER_BIT)
+
 	// Render
 	gl.BindVertexArray(vaos[trianglesName])
 	gl.DrawArrays(gl.TRIANGLES, 0, numVertices[trianglesName])
@@ -141,21 +138,15 @@ func (ctx *Context) Draw() {
 	// TODO(hurricanerix): We actually want to print the following to the dev window.
 	fmt.Printf("Shade Version: %s\n", gen.Version)
 	fmt.Printf("Built from: %s/commit/%s\n", gen.GitURL, gen.Hash)
-
-	// Swap Buffers
-	gl.Flush()
-	if ctx.Window != nil {
-		ctx.Window.SwapBuffers()
-	}
 }
 
 func createDevWindow() *glfw.Window {
 	var devWindow *glfw.Window
 	glfw.WindowHint(glfw.Resizable, glfw.True)
-	glfw.WindowHint(glfw.ContextVersionMajor, 4)
+	glfw.WindowHint(glfw.ContextVersionMajor, 2)
 	glfw.WindowHint(glfw.ContextVersionMinor, 1)
-	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
-	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
+	// glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+	// glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
 	devWindow, err := glfw.CreateWindow(256, 256, "dev", nil, nil)
 	if err != nil {
 		panic(fmt.Errorf("failed to create window: %s", err))

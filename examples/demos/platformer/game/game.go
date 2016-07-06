@@ -17,22 +17,28 @@ package game
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
+	"image"
+	_ "image/png"
 	"os"
 	"runtime"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/events"
-	"github.com/aeonurutu/shade/examples/ex2-platform/block"
-	"github.com/aeonurutu/shade/examples/ex2-platform/player"
-	"github.com/aeonurutu/shade/fonts"
-	"github.com/aeonurutu/shade/sprite"
-	"github.com/aeonurutu/shade/time/clock"
+
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/archive"
+	"github.com/aeonurutu/shade/core/util/fonts"
+	"github.com/aeonurutu/shade/core/util/sprite"
+
+	"github.com/aeonurutu/shade/examples/demos/platformer/block"
+	"github.com/aeonurutu/shade/examples/demos/platformer/player"
 )
 
 func init() {
@@ -100,7 +106,7 @@ func (c *Context) Main(screen *display.Context, config Config) {
 
 	for running := true; running; {
 
-		screen.Fill(0, 0, 0)
+		screen.Fill(1, 0, 0)
 
 		dt := clock.Tick(30)
 
@@ -185,12 +191,12 @@ func (c *Context) Main(screen *display.Context, config Config) {
 func loadMap(path string) (*Scene, error) {
 	scene := Scene{}
 
-	playerSprite, err := loadSpriteAsset("assets/gopher.png", "assets/gopher.normal.png", 5, 4)
+	playerSprite, err := loadSpriteAsset("./gopher.png", "./gopher.normal.png", 5, 4)
 	if err != nil {
 		return &scene, err
 	}
 	scene.Sprites = append(scene.Sprites, playerSprite)
-	blockSprite, err := loadSpriteAsset("assets/blocks.png", "assets/blocks.normal.png", 8, 1)
+	blockSprite, err := loadSpriteAsset("./blocks.png", "./blocks.normal.png", 8, 1)
 	if err != nil {
 		return &scene, err
 	}
@@ -237,15 +243,20 @@ func loadMap(path string) (*Scene, error) {
 }
 
 func loadSpriteAsset(colorName, normalName string, framesWide, framesHigh int) (*sprite.Context, error) {
-	c, err := sprite.LoadAsset(colorName)
+
+	c, err := archive.Get("example_assets.tar", colorName)
 	if err != nil {
 		return nil, err
 	}
-	n, err := sprite.LoadAsset(normalName)
+	ic, _, err := image.Decode(bytes.NewReader(c))
+
+	n, err := archive.Get("example_assets.tar", colorName)
 	if err != nil {
 		return nil, err
 	}
-	s, err := sprite.New(c, n, framesWide, framesHigh)
+	in, _, err := image.Decode(bytes.NewReader(n))
+
+	s, err := sprite.New(ic, in, framesWide, framesHigh)
 	if err != nil {
 		return nil, err
 	}

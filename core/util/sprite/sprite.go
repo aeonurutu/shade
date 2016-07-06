@@ -24,10 +24,11 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/aeonurutu/shade/archive"
-	"github.com/aeonurutu/shade/light"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/light"
+	"github.com/aeonurutu/shade/core/util/archive"
 )
 
 func init() {
@@ -97,7 +98,7 @@ func LoadAsset(name string) (image.Image, error) {
 		return nil, nil
 	}
 
-	imgFile, err := archive.Get(name)
+	imgFile, err := archive.Get("assets.tar", name)
 	if err != nil {
 		return nil, fmt.Errorf("could not load asset %s: %v", name, err)
 	}

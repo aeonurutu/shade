@@ -20,10 +20,11 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/aeonurutu/shade/events"
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/events"
 )
 
 func init() {
@@ -67,11 +68,6 @@ func SetMode(title string, width, height int) (*Context, error) {
 		Width:  float32(width),
 		Height: float32(height),
 	}
-	if err := glfw.Init(); err != nil {
-		return &c, fmt.Errorf("failed to initialize glfw: %v", err)
-	}
-	// TODO: move this to a terminate function
-	//defer glfw.Terminate()
 
 	supportedVersions := [][2]int{
 		// TODO: create matching shaders for these versions
@@ -143,6 +139,7 @@ func (c *Context) Flip() {
 	c.Window.SwapBuffers()
 }
 
+// TODO(hurricanerix): Use shader package for this...
 func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error) {
 	vertShader, err := compileShader(vertexShaderSource, gl.VERTEX_SHADER)
 	if err != nil {

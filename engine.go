@@ -54,18 +54,23 @@ Shade's generated files are up to date.
 */
 package shade
 
-//go:generate ./gen.sh
+//go:generate ./scripts/gen.sh
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"runtime"
 	"strconv"
 
-	"github.com/aeonurutu/shade/dev"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/entity"
+	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
+
+	"github.com/aeonurutu/shade/core/dev"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/events"
 )
 
 var (
@@ -78,10 +83,10 @@ func init() {
 	runtime.LockOSThread()
 
 	// allowDevMode should be set with ldflags
-	adm, _ := strconv.ParseBool(allowDevMode)
-	if adm {
+	if allow, _ := strconv.ParseBool(allowDevMode); allow {
 		flag.BoolVar(&devFlag, "dev", false, "dev mode.")
 	}
+	// TODO(hurricanerix): flag.BoolVar(&nosplash, "nosplash", false, "don't show splash screen.")
 }
 
 // Scene represents a View along with a collection of Entities and or SubScenes.
@@ -100,14 +105,15 @@ type Scene interface {
 
 // Engine contains state for the core systems of a 2.5D game.
 type Engine struct {
-	Title        string
-	AllowDevMode bool
+	Title      string
+	DevDisplay *dev.Context
 }
 
 // New returns a pointer to an Engine.
 func New(title string) *Engine {
 	e := Engine{
 		Title: title,
+		// Can't set DevDisplay here since flags have not been parsed yet.
 	}
 	return &e
 }
@@ -117,46 +123,75 @@ func (e *Engine) Run(scene Scene) error {
 	var err error
 	flag.Parse()
 
-	screen, err := display.SetMode(e.Title, 512, 512)
-	if err != nil {
+	if err = glfw.Init(); err != nil {
+		panic(fmt.Errorf("failed to initialize glfw: %v", err))
+	}
+	// TODO: move this to a terminate function
+	//defer glfw.Terminate()
+	if allow, _ := strconv.ParseBool(allowDevMode); allow && devFlag {
+		println("DEVWINDOW")
+		e.DevDisplay = dev.New()
+	}
+
+	var screen *display.Context
+	if screen, err = display.SetMode(e.Title, 512, 512); err != nil {
 		log.Fatalln("failed to set display mode:", err)
 	}
-	println(screen)
 
-	var devDisplay *dev.Context
-	if devFlag {
-		devDisplay = dev.New()
-	}
-
-	running := true
-
-	err = scene.Setup()
-	if err != nil {
+	if err = scene.Setup(); err != nil {
 		return err
 	}
 	defer scene.Cleanup()
 
 	for _, sub := range scene.SubScenes() {
-		err = sub.Setup()
-		defer sub.Cleanup()
-		if err != nil {
+		if err = sub.Setup(); err != nil {
 			return err
 		}
+		defer sub.Cleanup()
 	}
 
+	running := true
 	for running {
-		for _, ent := range scene.Entities() {
-			println(ent)
+		gl.Clear(gl.COLOR_BUFFER_BIT)
+
+		for _, event := range events.Get() {
+			if event.Type == events.KeyUp && event.Key == glfw.KeyEscape {
+				// Send window close event
+				screen.Close()
+			}
+			if event.Type == events.WindowClose {
+				// Handle window close
+				running = false
+			}
 		}
 
-		if devDisplay != nil {
-			devDisplay.Update()
-			devDisplay.Draw()
+		for _, ent := range scene.Entities() {
+			println(ent)
 		}
 
 		if scene.ShouldStop() {
 			running = false
 		}
+
+		gl.Flush()
+		screen.Window.SwapBuffers()
+		glfw.PollEvents()
+
+		// Dev mode
+		if e.DevDisplay == nil {
+			continue
+		}
+
+		e.DevDisplay.Window.MakeContextCurrent()
+		gl.Clear(gl.COLOR_BUFFER_BIT)
+
+		e.DevDisplay.Update()
+		e.DevDisplay.Draw()
+
+		gl.Flush()
+		e.DevDisplay.Window.SwapBuffers()
+
+		screen.Window.MakeContextCurrent()
 	}
 
 	return nil

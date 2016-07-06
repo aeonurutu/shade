@@ -50,7 +50,7 @@ var Version string = \"$VERSION\"\n
 var Hash string = \"$HASH\"\n
 "
 mkdir -p $ROOT_PATH/gen
-echo -e $CODE | gofmt > $ROOT_PATH/gen/info.go
+echo -e $CODE | gofmt > $ROOT_PATH/core/gen/info.go
 
 # === Build assets ===
 tar cf assets.tar --exclude="*.pyxel" -C assets .

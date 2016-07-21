@@ -16,6 +16,11 @@ Linux (Debian based) Specific Instructions
 $ sudo apt-get install git-core libgl1-mesa-dev libxrandr-dev libxcursor-dev libxinerama-dev libxi-dev
 ```
 
+For the Raspberry Pi you will also need to install
+```
+sudo apt-get install libgles2-mesa-dev
+```
+
 Windows Specific Instructions (work in progress)
 ```
 https://git-scm.com/download/win

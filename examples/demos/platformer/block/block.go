@@ -20,7 +20,6 @@ import (
 
 	"github.com/go-gl/mathgl/mgl32"
 
-	"github.com/aeonurutu/shade/core/entity"
 	"github.com/aeonurutu/shade/core/shapes"
 	"github.com/aeonurutu/shade/core/util/sprite"
 )
@@ -34,34 +33,27 @@ func init() {
 type Block struct {
 	pos    mgl32.Vec3
 	Sprite *sprite.Context
-	Shape  shapes.Shape
+	Shape  *shapes.Shape
+	Index  float32
 }
 
 // New TODO doc
-func New(x, y float32, s *sprite.Context) Block {
-	// TODO should take a group in as a argument
+func New(x, y float32, i float32, s *sprite.Context) *Block {
 	b := Block{
-		pos:    mgl32.Vec3{x, y, 1},
+		pos:    mgl32.Vec3{x, y, 1.0},
 		Sprite: s,
-		Shape:  *shapes.NewRect(0, float32(s.Width), 0, float32(s.Height)),
+		Shape:  shapes.NewRect(0, float32(s.Width), 0, float32(s.Height)),
+		Index:  i,
 	}
-	return b
+	return &b
 }
 
 func (b Block) Bounds() shapes.Shape {
-	return b.Shape
+	return *b.Shape
 }
 
 func (b Block) Pos() mgl32.Vec3 {
 	return b.pos
-}
-
-func (b Block) Type() string {
-	return "block"
-}
-
-func (b Block) Label() string {
-	return ""
 }
 
 // Bind TODO doc
@@ -69,12 +61,9 @@ func (b *Block) Bind(program uint32) error {
 	return b.Sprite.Bind(program)
 }
 
-// Update TODO doc
-func (b *Block) Update(dt float32, g []entity.Entity) {
-	// Blocks don't do anything
-}
-
 // Draw TODO doc
 func (b Block) Draw() {
-	b.Sprite.Draw(mgl32.Vec3{b.pos[0], b.pos[1], 0.0}, nil)
+	//e *sprite.Effects) {
+	//b.Sprite.Draw(b.Pos, e)
+	b.Sprite.DrawFrame(mgl32.Vec2{b.Index, 0}, b.pos, nil)
 }

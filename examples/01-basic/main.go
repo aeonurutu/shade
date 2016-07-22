@@ -13,6 +13,8 @@
 // limitations under the License.
 // Package app manages the main game loop.
 
+//go:generate go generate github.com/aeonurutu/shade
+
 package main
 
 import (
@@ -21,16 +23,16 @@ import (
 	"io"
 	"os"
 
-	"github.com/aeonurutu/shade/camera"
-	"github.com/aeonurutu/shade/display"
-	"github.com/aeonurutu/shade/engine"
-	"github.com/aeonurutu/shade/entity"
-	"github.com/aeonurutu/shade/scene"
+	"github.com/aeonurutu/shade"
+	"github.com/aeonurutu/shade/core/camera"
+	"github.com/aeonurutu/shade/core/display"
+	"github.com/aeonurutu/shade/core/entity"
+	"github.com/aeonurutu/shade/core/scene"
 )
 
 func main() {
 	// Configure the engine
-	eng := engine.New("01-basic")
+	eng := shade.New("01-basic")
 
 	// Configure your app
 	scene := &MyScene{}
@@ -66,9 +68,9 @@ func (ctx *MyScene) Setup() error {
 
 // Entities for MyScene
 func (ctx *MyScene) Entities() []entity.Entity {
-	fmt.Println("MyScene.Entities()")
-	fmt.Println(ctx.image)
-	ctx.count++
+	//fmt.Println("MyScene.Entities()")
+	//t.Println(ctx.image)
+	//ctx.count++
 	// TODO(hurricanerix): return sprite
 	return nil
 }
@@ -77,9 +79,9 @@ func (ctx *MyScene) Entities() []entity.Entity {
 func (ctx MyScene) ShouldStop() bool {
 	// TODO(hurricanerix): This should really be triggered by user input, but
 	//  will work for now.
-	if ctx.count > 10 {
-		return true
-	}
+	// if ctx.count > 10 {
+	// 	return true
+	// }
 	return false
 }
 

@@ -47,8 +47,33 @@ $ go get github.com/aeonurutu/shade/...
 To test your install:
 
 ```
-cd $GOPATH/src/github.com/aeonurutu/examples/ex2-platform
+cd $GOPATH/src/github.com/aeonurutu/shade/examples/demos/platformer
 go run main.go
+```
+
+=======
+Dev Mode
+--------
+
+To compile your app with the Shade's dev option available:
+
+```
+$ go build -ldflags="-X github.com/aeonurutu/shade.allowDevMode=true" main.go
+```
+
+Contributing
+------------
+
+To run tests:
+
+```
+$ go test ./...
+```
+
+To view the CI status
+
+```
+$ go test ./... | awk -f ci.awk
 ```
 
 Attribution

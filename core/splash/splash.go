@@ -11,13 +11,14 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// Package app manages the main game loop.
+// Package splash TODO doc
 
-package main
+package splash
 
 import (
+	"bytes"
+	"image"
 	_ "image/png"
-	"log"
 	"runtime"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -27,24 +28,20 @@ import (
 	"github.com/aeonurutu/shade/core/camera"
 	"github.com/aeonurutu/shade/core/display"
 	"github.com/aeonurutu/shade/core/events"
+	"github.com/aeonurutu/shade/core/splash/ghost"
 	"github.com/aeonurutu/shade/core/time/clock"
+	"github.com/aeonurutu/shade/core/util/archive"
+	"github.com/aeonurutu/shade/core/util/fonts"
 	"github.com/aeonurutu/shade/core/util/sprite"
 )
-
-const windowWidth = 640
-const windowHeight = 480
 
 func init() {
 	// GLFW event handling must run on the main OS thread
 	runtime.LockOSThread()
 }
 
-func main() {
-	screen, err := display.SetMode("02-animation", windowWidth, windowHeight)
-	if err != nil {
-		log.Fatalln("failed to set display mode:", err)
-	}
-
+func Main(screen *display.Context) {
+	screen.Window.MakeContextCurrent()
 	cam, err := camera.New()
 	if err != nil {
 		panic(err)
@@ -56,16 +53,22 @@ func main() {
 		panic(err)
 	}
 
-	a, err := loadSprite("animation.png", 3, 1)
+	font, err := loadFont()
 	if err != nil {
 		panic(err)
 	}
-	a.Bind(screen.Program)
-	var aframe float32 = 0.0
+	font.Sprite.Bind(screen.Program)
+	msg := "Shade SDK"
 
+	g := ghost.New()
+	g.Bind(screen.Program)
+
+	total := float32(0.0)
 	for running := true; running; {
 		dt := clock.Tick(30)
-		screen.Fill(200.0/256.0, 200/256.0, 200/256.0)
+		total += dt
+
+		screen.Fill(0.0, 0.0, 0.0)
 
 		// TODO move this somewhere else (maybe a Clear method of display
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
@@ -81,35 +84,63 @@ func main() {
 			}
 		}
 
-		aframe += 0.003 * dt
-		if int(aframe) > 2 {
-			aframe = 0
-		}
+		g.Update(dt, nil)
 
-		frame := mgl32.Vec2{
-			float32(int(aframe)), // Truncate to correct frame
-			0}
+		effect := sprite.Effects{
+			Scale:          mgl32.Vec3{1.0, 1.0, 1.0},
+			Tint:           mgl32.Vec4{1.0, 1.0, 1.0, 0.0},
+			EnableLighting: true,
+			AmbientColor:   g.AmbientColor,
+			Light:          *g.Light}
+		_, h := font.SizeText(&effect, msg)
+
 		pos := mgl32.Vec3{
-			windowWidth/2 - float32(a.Width)/2,
-			windowHeight/2 - float32(a.Height)/2,
+			screen.Width / 5,
+			screen.Height/2 + h/2,
 			0}
-		a.DrawFrame(frame, pos, nil)
+
+		font.DrawText(pos, &effect, msg)
+		g.Draw()
 
 		screen.Flip()
 		events.Poll()
-	}
 
+		if total > 3000.0 {
+			running = false
+		}
+	}
 }
 
-func loadSprite(path string, framesWide, framesHigh int) (*sprite.Context, error) {
-	i, err := sprite.Load(path)
+func loadFont() (*fonts.Context, error) {
+	c, err := archive.Get("assets.tar", "./splash-font.png")
 	if err != nil {
 		return nil, err
 	}
-	s, err := sprite.New(i, nil, framesWide, framesHigh)
+	ic, _, err := image.Decode(bytes.NewReader(c))
+
+	n, err := archive.Get("assets.tar", "./splash-font.normal.png")
+	if err != nil {
+		return nil, err
+	}
+	in, _, err := image.Decode(bytes.NewReader(n))
+
+	s, err := sprite.New(ic, in, 32, 3)
 	if err != nil {
 		return nil, err
 	}
 
-	return s, nil
+	m := make(map[int32]mgl32.Vec2, s.Width*s.Height)
+	for y := 0; y < 3; y++ {
+		for x := 0; x < 32; x++ {
+			m[int32((y+1)*32+x)] = mgl32.Vec2{float32(x), float32(y)}
+		}
+	}
+
+	u := mgl32.Vec2{31, 1}
+
+	f, err := fonts.New(s, m, u)
+	if err != nil {
+		return nil, err
+	}
+	return f, nil
 }

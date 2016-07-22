@@ -7,6 +7,8 @@ NOTE: This SDK should be considered very experimental as it is still under devel
 
 While the above should work without needing to work with the OpenGL SDK, the packages of this SDK should be extendable such that more advanced uses are possible.
 
+For usage/help using Shade, please see the [shade-engine](https://groups.google.com/forum/#!forum/shade-engine) google group.
+
 Installing
 ----------
 
@@ -68,6 +70,10 @@ $ go build -ldflags="-X github.com/aeonurutu/shade.allowDevMode=true" main.go
 
 Contributing
 ------------
+
+Join the dev discussions via the [shade-engine-dev](https://groups.google.com/forum/#!forum/shade-engine-dev) google group.
+
+
 
 To run tests:
 

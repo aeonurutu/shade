@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package actor
+#version 410
 
-type Animater interface {
-	Play(name string)
-}
+in vec4 vsColor;
 
-type Drawwer interface {
-	Draw()
+layout (location = 0) out vec4 fragColor;
+
+void main(void)
+{
+    fragColor = vsColor;
 }

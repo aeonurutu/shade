@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package shader handles compiling GLSL shaders.
 package shader
 
 import (
 	"bytes"
 	"fmt"
-	"io"
+	"os"
 	"strings"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -28,8 +27,8 @@ import (
 type Info struct {
 	// Type of shader: gl.VERTEX_SHADER, gl.FRAGMENT_SHADER, ...
 	Type uint32
-	// Source for the shader to compile.
-	Source io.ReadSeeker
+	// Filename of shader source file.
+	Filename string
 	// shader ID.
 	shader uint32
 }
@@ -81,7 +80,7 @@ func (i *Info) Compile(program uint32) error {
 		return fmt.Errorf("could not create shader")
 	}
 
-	source, err := readShader(i.Source)
+	source, err := readShader(i.Filename)
 	if err != nil {
 		return err
 	}
@@ -93,20 +92,21 @@ func (i *Info) Compile(program uint32) error {
 
 	var compiled int32
 	if gl.GetShaderiv(i.shader, gl.COMPILE_STATUS, &compiled); compiled == gl.FALSE {
-		return fmt.Errorf("failed to compile %s: %s", i.Source, getErrorMsg(true, i.shader))
+		return fmt.Errorf("failed to compile %s: %s", i.Filename, getErrorMsg(true, i.shader))
 	}
 	gl.AttachShader(program, i.shader)
 	return nil
 }
 
-func readShader(r io.ReadSeeker) (string, error) {
-	_, err := r.Seek(0, 0)
+func readShader(filename string) (string, error) {
+	f, err := os.Open(filename)
+	defer f.Close()
 	if err != nil {
 		return "", err
 	}
 
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(r)
+	buf.ReadFrom(f)
 	source := fmt.Sprintf("%s\x00", buf.String())
 
 	return source, nil

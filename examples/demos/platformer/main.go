@@ -21,7 +21,7 @@ import (
 )
 
 // Run with:
-// go run -ldflags="-X github.com/aeonurutu/shade.ldAllowDev=true" main.go
+// go run -ldflags="-X github.com/aeonurutu/shade.ldDevBuild=true" main.go
 // to enable dev mode.
 
 func main() {

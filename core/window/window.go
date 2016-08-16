@@ -16,13 +16,28 @@ package window
 
 import (
 	"fmt"
+	"image"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 )
 
+// Window to be rendered too.
+type Window interface {
+	SetMode(w, h, display int) error // SetMode for the window.  display should
+	// be a positive value indicating the display to use fullscreen on.  A value
+	// of -1 indicates to run in windowed mode.  If display is set to a value
+	// out of range, an appropriate error should be returned.
+	SwapBuffers()         // Swap buffers.
+	Capture() *image.RGBA // Capture and return the image currently being rendered in the buffer.
+	Destroy()             // Destroy and cleanup resources for the window.
+	ShouldClose() bool    // ShouldClose due to a receiving an event.
+}
+
 // New window
-func New(name string) (*glfw.Window, error) {
+func New(name string) (Window, error) {
+	ctx := Context{}
+
 	var window *glfw.Window
 	if err := glfw.Init(); err != nil {
 		return nil, fmt.Errorf("failed to initialize glfw: %s", err)
@@ -40,6 +55,7 @@ func New(name string) (*glfw.Window, error) {
 	}
 
 	window.MakeContextCurrent()
+	window.SetKeyCallback(keyCallback)
 
 	if err := gl.Init(); err != nil {
 		return nil, fmt.Errorf("unable to initialize Glow ... exiting: %s", err)
@@ -50,5 +66,37 @@ func New(name string) (*glfw.Window, error) {
 	fmt.Println("OpenGL version", gl.GoStr(gl.GetString(gl.VERSION)))
 	fmt.Println("GLSL version", gl.GoStr(gl.GetString(gl.SHADING_LANGUAGE_VERSION)))
 
-	return window, nil
+	ctx.glfw = window
+	return &ctx, nil
+}
+
+type Context struct {
+	glfw *glfw.Window
+}
+
+func (ctx *Context) SetMode(w, h, display int) error {
+	return nil
+}
+
+func (ctx *Context) SwapBuffers() {
+	// TODO: remove this
+
+	ctx.glfw.SwapBuffers()
+}
+
+func (ctx *Context) Capture() *image.RGBA {
+	return nil
+}
+
+func (ctx *Context) Destroy() {
+}
+
+func (ctx *Context) ShouldClose() bool {
+	return ctx.glfw.ShouldClose()
+}
+
+func keyCallback(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+	if action == glfw.Release && key == glfw.KeyEscape {
+		w.SetShouldClose(true)
+	}
 }

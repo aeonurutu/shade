@@ -11,53 +11,27 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// Package app manages the main game loop.
 
 package main
 
 import (
-	"flag"
-	"log"
-	"runtime"
+	"github.com/aeonurutu/shade"
 
-	"github.com/aeonurutu/shade/core/display"
-	"github.com/aeonurutu/shade/core/splash"
-
-	"github.com/aeonurutu/shade/examples/demos/platformer/game"
+	"github.com/aeonurutu/shade/examples/demos/platformer/app"
 )
 
-var (
-	dev      bool
-	nosplash bool
-)
-
-func init() {
-	// GLFW event handling must run on the main OS thread
-	runtime.LockOSThread()
-	flag.BoolVar(&dev, "dev", false, "dev mode.")
-	flag.BoolVar(&nosplash, "nosplash", false, "don't show splash screen.")
-}
+// Run with:
+// go run -ldflags="-X github.com/aeonurutu/shade.ldDevBuild=true" main.go
+// to enable dev mode.
 
 func main() {
-	flag.Parse()
+	a := app.New()
 
-	screen, err := display.SetMode("ex2-platform", 640, 480)
-	if err != nil {
-		log.Fatalln("failed to set display mode:", err)
+	e := shade.New("Platformer")
+	e.SetFPS(59.94)
+	e.SetEntryPoint(a)
+
+	if err := e.Run(); err != nil {
+		panic(err)
 	}
-
-	g, err := game.New(screen)
-	if err != nil {
-		log.Fatalln("failed to create game:", err)
-	}
-
-	if !nosplash {
-		// Please see shade/splash/splash.go for details on
-		// creating a splash screen
-		splash.Main(screen)
-	}
-
-	config := game.Config{DevMode: dev}
-
-	g.Main(screen, config)
 }

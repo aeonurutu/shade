@@ -3,9 +3,11 @@ Shade SDK
 
 A simple and easy to use 2.5D game SDK for the Go programming language.
 
-NOTE: This SDK should be considered very experimental as it is still under development.  It is currently being modeled after some aspects of the PyGame SDK, but this will probably change some as it matures.  The project will not have its "experimental" status removed until it is easy to install, easy to use, and supports dynamic lighting.
+NOTE: This SDK should be considered very experimental as it is still under development.  It is currently being modeled after some aspects of the PyGame SDK, but this will probably change some as it matures.  The project will not have its "experimental" status removed until it is easy to install and to use.
 
 While the above should work without needing to work with the OpenGL SDK, the packages of this SDK should be extendable such that more advanced uses are possible.
+
+For usage/help using Shade, please see the [shade-engine](https://groups.google.com/forum/#!forum/shade-engine) google group.
 
 Installing
 ----------
@@ -16,31 +18,19 @@ Linux (Debian based) Specific Instructions
 $ sudo apt-get install git-core libgl1-mesa-dev libxrandr-dev libxcursor-dev libxinerama-dev libxi-dev
 ```
 
+For the Raspberry Pi you will also need to install
+```
+sudo apt-get install libgles2-mesa-dev
+```
+
 Windows Specific Instructions (work in progress)
-```
-https://git-scm.com/download/win
-https://golang.org/doc/install
-https://cygwin.com/install.html
-http://www.glfw.org/
-```
+TODO: Figure this out.
 
 To install:
 
 Dependencies
 
 ```
-$ go get github.com/go-gl/gl/v{3.2,3.3,4.1,4.4,4.5}-{core,compatibility}/gl
-$ go get github.com/go-gl/gl/v3.3-core/gl
-```
-
-NOTE: the first "go get" will produce an error because generated files are not generated yet.
-
-```
-$ go get github.com/aeonurutu/shade/...
-package github.com/aeonurutu/shade/gen: cannot find package "github.com/aeonurutu/shade/gen" in any of:
-	/usr/local/go/src/github.com/aeonurutu/shade/gen (from $GOROOT)
-	/Users/hurricanerix/bin/usr/gocode/src/github.com/aeonurutu/shade/gen (from $GOPATH)
-$ go generate github.com/aeonurutu/shade/...
 $ go get github.com/aeonurutu/shade/...
 ```
 
@@ -51,18 +41,21 @@ cd $GOPATH/src/github.com/aeonurutu/shade/examples/demos/platformer
 go run main.go
 ```
 
-=======
-Dev Mode
---------
+Dev Build
+---------
 
 To compile your app with the Shade's dev option available:
 
 ```
-$ go build -ldflags="-X github.com/aeonurutu/shade.allowDevMode=true" main.go
+go build -ldflags="-X github.com/aeonurutu/shade.ldDevBuild=true" main.go
 ```
 
 Contributing
 ------------
+
+Join the dev discussions via the [shade-engine-dev](https://groups.google.com/forum/#!forum/shade-engine-dev) google group.
+
+
 
 To run tests:
 

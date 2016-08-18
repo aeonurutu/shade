@@ -11,15 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// Package light TODO doc
 
-package light
+#version 410
 
-import "github.com/go-gl/mathgl/mgl32"
+uniform mat4 modelMatrix;
+uniform mat4 projectionMatrix;
 
-// Directional TODO doc
-type Positional struct {
-	Pos   mgl32.Vec3
-	Color mgl32.Vec4
-	Power float32
+layout (location = 0) in vec4 mcVertex;
+layout (location = 1) in vec4 mcColor;
+
+out vec4 vsColor;
+
+void main(void)
+{
+    vsColor = mcColor;
+    gl_Position = projectionMatrix * (modelMatrix * mcVertex);
 }

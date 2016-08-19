@@ -19,7 +19,6 @@ import (
 	"unsafe"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
-	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
 
 	"github.com/aeonurutu/shade/core/shader"
@@ -158,7 +157,7 @@ func (a *App) Update() {
 	projectionMatrix = mgl32.Frustum(-1, 1, -aspect, aspect, 1, 500)
 }
 
-func (a *App) Render(window *glfw.Window, d time.Duration) {
+func (a *App) Render(d time.Duration) {
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
 	// Render
@@ -171,9 +170,6 @@ func (a *App) Render(window *glfw.Window, d time.Duration) {
 
 	gl.DrawElements(gl.TRIANGLE_STRIP, 8, gl.UNSIGNED_SHORT, nil)
 	gl.DrawElements(gl.TRIANGLE_STRIP, 8, gl.UNSIGNED_SHORT, gl.PtrOffset(9*2)) // (const GLvoid *)(9 * sizeof(GLushort))
-
-	gl.Flush()
-	window.SwapBuffers()
 }
 
 func (a *App) Terminate() {

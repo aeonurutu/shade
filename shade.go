@@ -21,6 +21,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 
 	"github.com/aeonurutu/shade/core/window"
@@ -59,15 +60,16 @@ type EntryPoint interface {
 	Init() error
 	ProcessInput()
 	Update()
-	Render(*glfw.Window, time.Duration)
+	Render(time.Duration)
 	Terminate()
 }
 
 // Engine handles main loop.
 type Engine struct {
-	Name string     // Name of application.
-	FPS  float64    // FPS targeted to run at.
-	App  EntryPoint // App for the engine to run.
+	Name   string        // Name of application.
+	FPS    float64       // FPS targeted to run at.
+	App    EntryPoint    // App for the engine to run.
+	Window window.Window // Window to render to.
 }
 
 // New instance of Engine.
@@ -101,11 +103,11 @@ func (e *Engine) Run() error {
 		fmt.Printf("Running at %3.2f FPS\n", e.FPS)
 	}
 
-	window, err := window.New(e.Name)
+	var err error
+	e.Window, err = window.New(e.Name)
 	if err != nil {
 		return err
 	}
-	window.SetKeyCallback(keyCallback)
 
 	if err := e.App.Init(); err != nil {
 		return err
@@ -119,23 +121,26 @@ func (e *Engine) Run() error {
 	}
 
 	previous := getPlayerTime()
-	for !window.ShouldClose() {
+	for !e.Window.ShouldClose() {
 		current := getPlayerTime()
 		elapsed := current.Sub(previous)
 		previous = current
 		lag += elapsed
 
-		processInput()
+		glfw.PollEvents()
+		e.ProcessInput()
 		e.App.ProcessInput()
 
 		for lag >= dpu {
-			update()
+			e.Update()
 			e.App.Update()
 			lag -= dpu
 		}
 
-		render(window, lag/dpu)
-		e.App.Render(window, lag/dpu)
+		e.Render(lag / dpu)
+		e.App.Render(lag / dpu)
+		gl.Flush()
+		e.Window.SwapBuffers()
 	}
 
 	e.App.Terminate()
@@ -147,18 +152,11 @@ func getPlayerTime() time.Time {
 	return time.Now()
 }
 
-func processInput() {
-	glfw.PollEvents()
+func (e *Engine) ProcessInput() {
 }
 
-func update() {
+func (e *Engine) Update() {
 }
 
-func render(window *glfw.Window, d time.Duration) {
-}
-
-func keyCallback(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
-	if action == glfw.Release && key == glfw.KeyEscape {
-		w.SetShouldClose(true)
-	}
+func (e *Engine) Render(d time.Duration) {
 }

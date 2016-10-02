@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins, Alan Erwin
+// Copyright 2016 Richard Hawkins
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 package main
 
 import (
-	"github.com/aeonurutu/shade"
+	"github.com/hurricanerix/shade"
 
-	"github.com/aeonurutu/shade/examples/demos/platformer/app"
+	"github.com/hurricanerix/shade/examples/demos/platformer/app"
 )
 
 // Run with:
-// go run -ldflags="-X github.com/aeonurutu/shade.ldDevBuild=true" main.go
+// go run -ldflags="-X github.com/hurricanerix/shade.ldDevBuild=true" main.go
 // to enable dev mode.
 
 func main() {

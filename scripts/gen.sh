@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright 2016 Richard Hawkins, Alan Erwin
+# Copyright 2016 Richard Hawkins
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,17 +35,17 @@ fi
 # \n
 # package gen\n
 # \n
-# var GitURL = \"https://github.com/aeonurutu/shade\"\n
+# var GitURL = \"https://github.com/hurricanerix/shade\"\n
 # var Version string = \"$VERSION\"\n
 # var Hash string = \"$HASH\"\n
 # "
 
-CODE="// CODE GENERATED AUTOMATICALLY WITH github.com/aeonurutu/shade/gen.sh\n
+CODE="// CODE GENERATED AUTOMATICALLY WITH github.com/hurricanerix/shade/gen.sh\n
 // THIS FILE SHOULD NOT BE EDITED BY HAND\n
 \n
 package gen\n
 \n
-var GitURL = \"https://github.com/aeonurutu/shade\"\n
+var GitURL = \"https://github.com/hurricanerix/shade\"\n
 var Version string = \"$VERSION\"\n
 var Hash string = \"$HASH\"\n
 "

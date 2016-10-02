@@ -31,13 +31,13 @@ To install:
 Dependencies
 
 ```
-$ go get github.com/aeonurutu/shade/...
+$ go get github.com/hurricanerix/shade/...
 ```
 
 To test your install:
 
 ```
-cd $GOPATH/src/github.com/aeonurutu/shade/examples/demos/platformer
+cd $GOPATH/src/github.com/hurricanerix/shade/examples/demos/platformer
 go run main.go
 ```
 
@@ -47,7 +47,7 @@ Dev Build
 To compile your app with the Shade's dev option available:
 
 ```
-go build -ldflags="-X github.com/aeonurutu/shade.ldDevBuild=true" main.go
+go build -ldflags="-X github.com/hurricanerix/shade.ldDevBuild=true" main.go
 ```
 
 Contributing
@@ -93,7 +93,7 @@ Helpful Tools
 Troubleshooing
 --------------
 
-#### cannot find package "github.com/aeonurutu/shade/gen"
+#### cannot find package "github.com/hurricanerix/shade/gen"
 
 Some variables/assets are packaged into a generated code file, if you get this error run the bindata.sh script to generate that file.
 

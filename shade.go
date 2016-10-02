@@ -1,4 +1,4 @@
-// Copyright 2016 Richard Hawkins, Alan Erwin
+// Copyright 2016 Richard Hawkins
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 
-	"github.com/aeonurutu/shade/core/window"
+	"github.com/hurricanerix/shade/core/window"
 )
 
 // Flags only allowed if compiled to allow developer mode.

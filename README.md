@@ -1,6 +1,8 @@
 Shade SDK
 =========
 
+NOTE: All work in master has currently stopped.  There is a ['engine-refactor'](https://github.com/hurricanerix/shade/tree/engine-refactor) branch which is where all current work is happening.
+
 A simple and easy to use 2.5D game SDK for the Go programming language.
 
 NOTE: This SDK should be considered very experimental as it is still under development.  It is currently being modeled after some aspects of the PyGame SDK, but this will probably change some as it matures.  The project will not have its "experimental" status removed until it is easy to install, easy to use, and supports dynamic lighting.

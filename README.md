@@ -1,7 +1,7 @@
 Shade SDK
 =========
 
-NOTE: All work in master has currently stopped.  There is a ['engine-refactor'](https://github.com/hurricanerix/shade/tree/engine-refactor) branch which is where all current work is happening.
+NOTE: All work in master has currently stopped.  There is a ['engine-rewrite'](https://github.com/hurricanerix/shade/tree/engine-rewrite) branch which is where all current work is happening.
 
 A simple and easy to use 2.5D game SDK for the Go programming language.
 

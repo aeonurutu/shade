@@ -1,8 +1,12 @@
+.swp
+.swo
 .DS_Store
-*.swp
-*.swo
+*.tar
 gen/*
-
 assets.tar
 example_assets.tar
+!gen/doc.go
+core/gen/*
+!core/gen/doc.go
+
 

@@ -1,61 +1,74 @@
-Shade SDK
-=========
+# Shade Engine
 
-NOTE: All work in master has currently stopped.  There is a ['engine-refactor'](https://github.com/hurricanerix/shade/tree/engine-refactor) branch which is where all current work is happening.
+A experimental game engine written in Go.
 
-A simple and easy to use 2.5D game SDK for the Go programming language.
+Primary goals:
 
-NOTE: This SDK should be considered very experimental as it is still under development.  It is currently being modeled after some aspects of the PyGame SDK, but this will probably change some as it matures.  The project will not have its "experimental" status removed until it is easy to install, easy to use, and supports dynamic lighting.
+* Prototype games quickly with Go
+* Simple and easy to use
+* Extendable allowing advanced customization
+* Built-in support for advanced features, such as physics and dynamic lighting
 
-While the above should work without needing to work with the OpenGL SDK, the packages of this SDK should be extendable such that more advanced uses are possible.
+NOTE: This SDK should be considered very experimental as it is still under development.  It is currently being modeled after some aspects of the PyGame SDK, but this will probably change some as it matures.  The project will not have its "experimental" status removed until it is easy to install and to use.
 
-Installing
-----------
+For usage/help using Shade, please see the [shade-engine](https://groups.google.com/forum/#!forum/shade-engine) google group.
 
-Linux (Debian based) Specific Instructions
+## Installing
+
+Install the [Go Programming Language](https://golang.org/doc/install) version 1.8.1 for your OS.
+
+### Linux (Debian based):
 ```
-# Install Go 1.6
 $ sudo apt-get install git-core libgl1-mesa-dev libxrandr-dev libxcursor-dev libxinerama-dev libxi-dev
 ```
 
-Windows Specific Instructions (work in progress)
-```
-https://git-scm.com/download/win
-https://golang.org/doc/install
-https://cygwin.com/install.html
-http://www.glfw.org/
-```
-
-To install:
-
-Dependencies
+### macOS
 
 ```
-$ go get -u github.com/jteeuwen/go-bindata/...
-$ go get github.com/go-gl/gl/v{3.2,3.3,4.1,4.4,4.5}-{core,compatibility}/gl
-$ go get github.com/go-gl/gl/v3.3-core/gl
+$ brew install pkgconfig sdl2
 ```
 
-NOTE: the first "go get" will produce an error because generated files are not generated yet.
+### macOS
+
+```
+$ brew install pkgconfig sdl2
+```
+
+Raspberry Pi users will also need to install
+```
+sudo apt-get install libgles2-mesa-dev
+```
+
+Windows:
+TODO: document this.
+
+### Dependencies
 
 ```
 $ go get github.com/hurricanerix/shade/...
-package github.com/hurricanerix/shade/gen: cannot find package "github.com/hurricanerix/shade/gen" in any of:
-	/usr/local/go/src/github.com/hurricanerix/shade/gen (from $GOROOT)
-	/Users/hurricanerix/bin/usr/gocode/src/github.com/hurricanerix/shade/gen (from $GOPATH)
-$ go generate github.com/hurricanerix/shade/...
-$ go get github.com/hurricanerix/shade/...
 ```
 
-To test your install:
+### To test your install:
 
 ```
-cd $GOPATH/src/github.com/hurricanerix/examples/ex2-platform
-go run main.go
+go run -ldflags="-X github.com/hurricanerix/shade.ldDevBuild=true" $GOPATH/src/github.com/hurricanerix/shade/examples/demos/platformer/main.go --debug-server
 ```
 
-Attribution
------------
+## Contributing
+
+Join the dev discussions via the [shade-engine-dev](https://groups.google.com/forum/#!forum/shade-engine-dev) google group.
+
+Request access to shade-engine.slack.com
+
+### Dev Build
+
+To compile your app with the Shade's dev option available:
+
+```
+go build -ldflags="-X github.com/hurricanerix/shade.ldDevBuild=true" main.go
+```
+
+## Attribution
 
 This project was inspired by the article ["Normal Mapping with Javascript and Canvas"](https://29a.ch/2010/3/24/normal-mapping-with-javascript-and-canvas-tag).
 
@@ -63,8 +76,7 @@ Some aspects of the SDK are inspired by the [PyGame SDK](http://www.pygame.org/)
 
 assets/gopher* adapted from [creations by Renee French under a Creative Commons Attributions 3.0 license.](https://golang.org/doc/gopher/)
 
-Helpful Tools
--------------
+## Helpful Tools
 
 [Pyxel Edit](http://pyxeledit.com/) - Very nice pixel art editor.
 
@@ -75,8 +87,7 @@ Helpful Tools
 [sfxr](http://www.drpetter.se/project_sfxr.html)/[cfxr](http://thirdcog.eu/apps/cfxr) - Simple means of getting basic sound effects.
 
 
-Troubleshooing
---------------
+## Troubleshooing
 
 #### cannot find package "github.com/hurricanerix/shade/gen"
 

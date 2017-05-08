@@ -5,6 +5,8 @@ NOTE: All work in master has currently stopped.  There is a ['engine-rewrite'](h
 
 A simple and easy to use 2.5D game SDK for the Go programming language.
 
+A short video: https://www.youtube.com/watch?v=GlaKt9xPGCQ
+
 NOTE: This SDK should be considered very experimental as it is still under development.  It is currently being modeled after some aspects of the PyGame SDK, but this will probably change some as it matures.  The project will not have its "experimental" status removed until it is easy to install, easy to use, and supports dynamic lighting.
 
 While the above should work without needing to work with the OpenGL SDK, the packages of this SDK should be extendable such that more advanced uses are possible.

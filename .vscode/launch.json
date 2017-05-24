@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "shade-hello",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceRoot}/examples/shade-hello",
+            "buildFlags": "-ldflags='-X github.com/hurricanerix/shade/core/engine.ldDevBuild=true'",
+            "args": ["--debug-server"]
+        },
+        {
+            "name": "shade-platformer",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceRoot}/examples/shade-platformer",
+            "buildFlags": "-ldflags='-X github.com/hurricanerix/shade/core/engine.ldDevBuild=true'",
+            "args": ["--debug-server"]
+        }
+    ]
+}

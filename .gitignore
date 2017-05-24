@@ -8,5 +8,6 @@ example_assets.tar
 !gen/doc.go
 core/gen/*
 !core/gen/doc.go
-
+debug
+debug.test
 
